@@ -2,1755 +2,1654 @@
 <html lang="it" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Programmazione Annuale Ipertrofia (Settembre–Settembre)</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2310b981'/%3E%3Cpath d='M22 36h8v28h-8zm48 0h8v28h-8zM14 42h6v16h-6zm66 0h6v16h-6zM32 47h36v6H32z' fill='%23051911'/%3E%3C/svg%3E">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2310b981'/%3E%3Cpath d='M22 36h8v28h-8zm48 0h8v28h-8zM14 42h6v16h-6zm66 0h6v16h-6zM32 47h36v6H32z' fill='%23051911'/%3E%3C/svg%3E">
-  <meta name="theme-color" content="#0f172a">
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chart.js for clean progress charts -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link id="dynamic-favicon" rel="icon" type="image/png" />
+  <link id="dynamic-apple-icon" rel="apple-touch-icon" />
+  <link id="dynamic-manifest" rel="manifest" />
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-          },
-          colors: {
-            slate: {
-              850: '#172033',
-              925: '#0d1322',
-              950: '#090d16',
-            }
-          }
-        }
+    (function () {
+      const c = document.createElement('canvas');
+      c.width = 512;
+      c.height = 512;
+      const ctx = c.getContext('2d');
+
+      // Sfondo arrotondato verde smeraldo
+      ctx.fillStyle = '#10b981';
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(0, 0, 512, 512, 112);
+      } else {
+        ctx.rect(0, 0, 512, 512);
       }
-    };
+      ctx.fill();
+
+      // Manubrio scuro al centro
+      ctx.fillStyle = '#051911';
+      ctx.fillRect(160, 240, 192, 32); // Barra centrale
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(112, 176, 44, 160, 12); // Disco interno sx
+        ctx.roundRect(356, 176, 44, 160, 12); // Disco interno dx
+        ctx.roundRect(68, 206, 36, 100, 10);  // Disco esterno sx
+        ctx.roundRect(408, 206, 36, 100, 10); // Disco esterno dx
+      } else {
+        ctx.rect(112, 176, 44, 160);
+        ctx.rect(356, 176, 44, 160);
+        ctx.rect(68, 206, 36, 100);
+        ctx.rect(408, 206, 36, 100);
+      }
+      ctx.fill();
+
+      const pngUrl = c.toDataURL('image/png');
+      document.getElementById('dynamic-favicon').href = pngUrl;
+      document.getElementById('dynamic-apple-icon').href = pngUrl;
+
+      const manifest = {
+        name: "Ipertrofia Set-Set",
+        short_name: "Palestra",
+        start_url: window.location.href,
+        display: "standalone",
+        background_color: "#0f172a",
+        theme_color: "#0f172a",
+        icons: [{ src: pngUrl, sizes: "512x512", type: "image/png" }]
+      };
+      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+      document.getElementById('dynamic-manifest').href = URL.createObjectURL(blob);
+    })();
   </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #090d16;
+      background-color: #0b1120;
       color: #f1f5f9;
       -webkit-tap-highlight-color: transparent;
-      overflow-x: hidden;
+      overscroll-behavior-y: none;
     }
-    /* Prevent automatic iOS Safari zoom on inputs by ensuring >= 16px font-size on mobile */
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Input number clean look */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] { -moz-appearance: textfield; }
+
+    /* Prevent iOS zoom on focus */
     @media (max-width: 767px) {
-      input[type="text"],
       input[type="number"],
+      input[type="text"],
       input[type="date"],
       select {
         font-size: 16px !important;
       }
     }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
+
+    /* Custom range slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      background: transparent;
     }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
+    input[type="range"]::-webkit-slider-runnable-track {
       height: 6px;
-      width: 6px;
+      background: #1e293b;
+      border-radius: 999px;
     }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #0f172a;
-      border-radius: 9999px;
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #10b981;
+      margin-top: -7px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 9999px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
-    /* Mobile-first responsive transformation: turn exercise & history tables into clean vertical cards below 768px */
-    @media (max-width: 767px) {
-      .mobile-card-table,
-      .mobile-card-table tbody,
-      .mobile-card-table tr,
-      .mobile-card-table td {
-        display: block;
-        width: 100%;
-      }
-      .mobile-card-table thead {
-        display: none;
-      }
-      .mobile-card-table tbody {
-        display: flex;
-        flex-direction: column;
-        gap: 0.875rem;
-        padding: 0.75rem;
-      }
-      .mobile-card-table tr {
-        background-color: rgba(15, 23, 42, 0.95);
-        border: 1px solid rgba(51, 65, 85, 0.85);
-        border-radius: 1rem;
-        padding: 0.875rem;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-      }
-      .mobile-card-table td {
-        padding: 0.35rem 0 !important;
-        border: none !important;
-      }
+    .safe-pb {
+      padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200 pb-6">
+<body class="min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200 safe-pb">
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-50 flex flex-col items-center sm:items-end gap-2 pointer-events-none"></div>
-
-  <!-- Top Sticky Compact Mobile-First Header -->
-  <header class="sticky top-0 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+  <!-- Top Navigation Bar (Mobile-First Sticky) -->
+  <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2.5 flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+      <!-- Brand + Quick Today Button -->
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-slate-950" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h2m14 0h2M5 7v6m14-6v6M7 10h10M9 6v8m6-8v8" />
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6.5 6.5h11"/><path d="M6.5 17.5h11"/><path d="M3 10v4"/><path d="M21 10v4"/><path d="M6.5 4v16"/><path d="M17.5 4v16"/>
             </svg>
           </div>
           <div class="min-w-0">
-            <h1 class="text-base sm:text-xl font-extrabold tracking-tight text-white leading-tight truncate">
-              Ipertrofia <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Set–Set</span>
+            <h1 class="text-base sm:text-lg font-bold tracking-tight text-white leading-tight truncate">
+              Ipertrofia <span class="text-emerald-400">Set–Set</span>
             </h1>
-            <p class="text-[11px] sm:text-xs text-slate-400 truncate">52 Sett. • 3 Sedute/Sett. • Diario Carichi</p>
+            <p class="text-[11px] text-slate-400 truncate">52 Sett. • 3 Sedute/Sett. • Diario Carichi</p>
           </div>
         </div>
-        <button type="button" onclick="resetToToday()" class="md:hidden px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-cyan-400 active:scale-95 transition min-h-[40px]">
+
+        <button onclick="resetToToday()" class="md:hidden px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700/80 text-xs font-semibold text-emerald-400 active:scale-95 transition shrink-0">
           Oggi
         </button>
       </div>
 
-      <!-- Mobile-Optimized 4-Tab Pill Navigation -->
-      <nav aria-label="Navigazione principale" class="grid grid-cols-4 md:inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 gap-1">
-        <button id="nav-workout-btn" onclick="switchMainTab('workout')" class="px-2 sm:px-3.5 py-2 rounded-lg text-[11px] sm:text-sm font-bold transition-all bg-emerald-500 text-slate-950 shadow text-center min-h-[40px] flex items-center justify-center">
+      <!-- Segmented 4-Tab Navigation -->
+      <nav class="grid grid-cols-4 md:flex items-center bg-slate-900/95 p-1 rounded-xl border border-slate-800 w-full md:w-auto">
+        <button id="tab-workout" onclick="switchMainTab('workout')" class="py-2 md:px-3.5 md:py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-emerald-500 text-slate-950 shadow-sm text-center">
           Scheda
         </button>
-        <button id="nav-history-btn" onclick="switchMainTab('history')" class="px-2 sm:px-3.5 py-2 rounded-lg text-[11px] sm:text-sm font-semibold transition-all text-slate-300 hover:text-white text-center min-h-[40px] flex items-center justify-center gap-1">
+        <button id="tab-history" onclick="switchMainTab('history')" class="py-2 md:px-3.5 md:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-all flex items-center justify-center gap-1">
           <span>Diario</span>
-          <span id="history-count-badge" class="px-1.5 py-0.2 text-[10px] rounded-full bg-slate-800 text-emerald-400 font-bold">0</span>
+          <span id="log-count-badge" class="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-slate-800 text-emerald-400">0</span>
         </button>
-        <button id="nav-report-btn" onclick="switchMainTab('report')" class="px-2 sm:px-3.5 py-2 rounded-lg text-[11px] sm:text-sm font-semibold transition-all text-slate-300 hover:text-white text-center min-h-[40px] flex items-center justify-center">
+        <button id="tab-report" onclick="switchMainTab('report')" class="py-2 md:px-3.5 md:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-all text-center">
           Report
         </button>
-        <button id="nav-plan-btn" onclick="switchMainTab('plan')" class="px-2 sm:px-3.5 py-2 rounded-lg text-[11px] sm:text-sm font-semibold transition-all text-slate-300 hover:text-white text-center min-h-[40px] flex items-center justify-center">
+        <button id="tab-annual" onclick="switchMainTab('annual')" class="py-2 md:px-3.5 md:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-all text-center">
           Piano 52s
         </button>
       </nav>
     </div>
   </header>
 
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4 sm:space-y-6">
+  <!-- Main Container -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
 
-    <!-- 1. Period & Active Cycle Dashboard Card (Thumb-Friendly) -->
-    <section class="rounded-2xl bg-slate-900/90 border border-slate-800 p-3.5 sm:p-6 shadow-xl">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-5">
-        
-        <!-- Left: Status & Phase Badge -->
-        <div class="space-y-2 flex-1">
+    <!-- PERIOD & WEEK SELECTOR BANNER -->
+    <section class="bg-slate-900/85 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <!-- Left: Active Block Info -->
+        <div class="space-y-2">
           <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
-            <span id="phase-status-badge" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="status-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Settimana di Lavoro
             </span>
-            <span id="macro-week-badge" class="px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-              Sett. 11 / 52
+            <span id="week-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700">
+              Settimana 1 / 52
             </span>
-            <span id="meso-week-badge" class="px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
-              Sett. 3 di 8 nel blocco
+            <span id="block-week-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-sky-500/10 text-sky-300 border border-sky-500/20">
+              Settimana 1 di 8 nel blocco
             </span>
           </div>
 
           <div>
-            <h2 id="active-block-title" class="text-xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
-              Blocco 2: Costruzione (Nov–Dic)
+            <h2 id="active-block-title" class="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-snug">
+              Blocco 1: Base (Set–Ott)
             </h2>
-            <p id="active-routine-subtitle" class="text-xs sm:text-base text-emerald-400 font-semibold mt-0.5">
-              Scheda 2: Push / Pull / Legs (Settimane 9–16)
+            <p id="active-block-subtitle" class="text-xs sm:text-sm text-emerald-400 font-medium mt-0.5">
+              Scheda 1 (Split a 3 giorni) • Settimane 1–8
             </p>
           </div>
 
-          <p id="phase-guidance-text" class="text-xs sm:text-sm text-slate-300 bg-slate-950/70 border border-slate-800/90 rounded-xl p-2.5 sm:p-3 leading-relaxed">
-            Obiettivo: Più qualità e varietà di esercizi. Progressione: volume crescente (10 → 14-16 serie/settimana) e RIR in calo da 3 a 1.
+          <p id="active-block-goal" class="text-xs sm:text-sm text-slate-300 max-w-2xl bg-slate-950/60 border border-slate-800/80 rounded-xl px-3 py-2.5 leading-relaxed">
+            Obiettivo: Tecnica, adattamento, volume moderato.
           </p>
         </div>
 
-        <!-- Right: Thumb-Optimized Date & Week Selector Controls -->
-        <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3 sm:p-4 flex flex-col gap-3 shrink-0 lg:w-80">
+        <!-- Right: Date & Week Navigation Controls -->
+        <div class="bg-slate-950/75 border border-slate-800 rounded-xl p-3.5 flex flex-col gap-3 min-w-full lg:min-w-[300px]">
           <div class="flex items-center justify-between gap-2">
-            <label for="reference-date" class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Data di riferimento</label>
-            <button type="button" onclick="resetToToday()" class="text-xs font-bold text-cyan-400 hover:text-cyan-300 underline underline-offset-2 py-1 px-2">
+            <label for="date-picker" class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Data di riferimento</label>
+            <button onclick="resetToToday()" class="text-xs font-semibold text-emerald-400 hover:text-emerald-300 underline underline-offset-2 py-0.5">
               Torna a Oggi
             </button>
           </div>
-          <input type="date" id="reference-date" onchange="handleDateChange(this.value)" class="w-full rounded-xl bg-slate-900 border border-slate-700 px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 min-h-[44px]" />
-          
-          <div class="pt-0.5">
-            <div class="flex items-center justify-between text-xs mb-1.5">
-              <span class="text-slate-400 font-medium">Settimana Macrociclo</span>
-              <span id="week-slider-label" class="font-extrabold text-emerald-400">Sett. 11 / 52</span>
+          <input type="date" id="date-picker" onchange="handleDateChange(this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-400">Settimana Macrociclo</span>
+              <span id="slider-week-label" class="font-bold text-emerald-400">Sett. 1</span>
             </div>
             <div class="flex items-center gap-2.5">
-              <button type="button" onclick="changeWeekBy(-1)" aria-label="Settimana precedente" class="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 border border-slate-700 text-slate-200 transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              <button onclick="changeWeek(-1)" aria-label="Settimana precedente" class="w-10 h-10 rounded-xl bg-slate-800 active:bg-slate-700 text-slate-200 flex items-center justify-center border border-slate-700 transition shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7"/></svg>
               </button>
-              <input type="range" id="week-slider" min="1" max="52" value="11" oninput="handleWeekSlider(this.value)" class="w-full h-2 accent-emerald-500 cursor-pointer" />
-              <button type="button" onclick="changeWeekBy(1)" aria-label="Settimana successiva" class="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 border border-slate-700 text-slate-200 transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              <input type="range" id="week-slider" min="1" max="52" value="1" oninput="handleWeekSlider(this.value)" class="flex-1 h-8" />
+              <button onclick="changeWeek(1)" aria-label="Settimana successiva" class="w-10 h-10 rounded-xl bg-slate-800 active:bg-slate-700 text-slate-200 flex items-center justify-center border border-slate-700 transition shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 5l7 7-7 7"/></svg>
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Horizontal Swipeable Block Pills on Mobile / Grid on Desktop -->
+      <!-- Deload Alert Banner -->
+      <div id="deload-alert" class="hidden mt-4 bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-start gap-2.5 text-amber-200 text-xs sm:text-sm">
+        <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        <div>
+          <span class="font-bold text-amber-300">Settimana di Scarico (8ª del blocco):</span>
+          carichi al <strong>60%</strong> (calcolati automaticamente per ogni serie in base al tuo ultimo record) e <strong>metà delle serie</strong>.
+        </div>
+      </div>
+
+      <!-- Horizontal Scrollable Block Pills (Mobile-Friendly) -->
       <div class="mt-4 pt-3.5 border-t border-slate-800/80">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Blocchi Annuali (Scorri o Tocca)</span>
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Blocchi Annuali (scorri o tocca)</span>
           <span class="text-[11px] text-slate-500 hidden sm:inline">Salta alla settimana 1 del blocco</span>
         </div>
-        <div id="blocks-nav-container" class="flex sm:grid sm:grid-cols-4 lg:grid-cols-7 gap-2 overflow-x-auto no-scrollbar pb-1 sm:pb-0">
-          <!-- Populated dynamically via JS -->
+        <div id="block-pills-container" class="flex md:grid md:grid-cols-7 gap-2 overflow-x-auto no-scrollbar pb-1 snap-x">
+          <!-- Populated by JS -->
         </div>
       </div>
     </section>
 
-    <!-- VIEW 1: ACTIVE WORKOUT & PER-SET MOBILE-FIRST CARDS / DESKTOP TABLE -->
-    <div id="view-workout" class="space-y-4 sm:space-y-6">
+    <!-- VIEW 1: ACTIVE WORKOUT & WEIGHT LOGGING -->
+    <div id="view-workout" class="space-y-4 sm:space-y-5">
 
-      <!-- Special Alert for Deload Week (Week 8 of any block) -->
-      <div id="deload-banner" class="hidden rounded-2xl bg-amber-500/10 border border-amber-500/40 p-3.5 sm:p-4 flex items-start gap-3">
-        <div class="p-2 rounded-xl bg-amber-500/20 text-amber-400 shrink-0 mt-0.5">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
+      <!-- Specialization Weak Point Customizer -->
+      <div id="specialization-bar" class="hidden bg-indigo-950/40 border border-indigo-500/30 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h3 class="text-xs sm:text-sm font-bold text-amber-300">Settimana di Scarico Attiva (Settimana 8 del Blocco)</h3>
-          <p class="text-xs sm:text-sm text-amber-200/90 mt-0.5 leading-relaxed">
-            Carichi al <strong>60%</strong> del peso abituale e <strong>metà delle serie</strong> previste. I campi sono già precompilati con il 60% del tuo ultimo record!
-          </p>
+          <h3 class="text-sm font-bold text-indigo-300">Blocco Specializzazione (Settimane 33–40)</h3>
+          <p class="text-xs text-slate-300 mt-0.5">Struttura Upper/Lower/Full Body + 2–4 serie settimanali sui punti deboli.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <label for="weak-point-select" class="text-xs text-slate-400 whitespace-nowrap">Focus:</label>
+          <select id="weak-point-select" onchange="saveWeakPoint(this.value)" class="flex-1 sm:flex-none bg-slate-900 border border-indigo-500/40 rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none">
+            <option value="Spalle (Deltoidi laterali/posteriori)">Spalle (+3 serie)</option>
+            <option value="Braccia (Bicipiti e Tricipiti)">Braccia (+3 serie)</option>
+            <option value="Polpacci e Femorali">Polpacci e Femorali (+3 serie)</option>
+            <option value="Petto alto">Petto alto (+3 serie)</option>
+            <option value="Dorso (Ampiezza e Spessore)">Dorso (+3 serie)</option>
+          </select>
         </div>
       </div>
 
-      <!-- Specialization Block Custom Focus Note (Weeks 33-40) -->
-      <div id="specialization-banner" class="hidden rounded-2xl bg-cyan-500/10 border border-cyan-500/30 p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="space-y-1">
-          <h3 class="text-xs sm:text-sm font-bold text-cyan-300">Blocco Specializzazione (Settimane 33–40)</h3>
-          <p class="text-xs text-slate-300">Struttura Upper/Lower basata sulla Scheda 3. Aggiungi <strong>+2–4 serie settimanali</strong> sui gruppi muscolari carenti.</p>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <label for="weak-point-input" class="text-xs text-cyan-300 font-semibold whitespace-nowrap">Focus carente:</label>
-          <input type="text" id="weak-point-input" placeholder="Es. Spalle / Braccia..." onchange="saveWeakPoint(this.value)" class="rounded-xl bg-slate-950 border border-cyan-500/40 px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 flex-1 sm:w-44 min-h-[40px]" />
-        </div>
-      </div>
-
-      <!-- Full-Width 3-Column Day Tabs & Technical Notes Toggle -->
+      <!-- Day Selector Tabs & Technical Notes Toggle -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-        <div id="day-tabs-container" class="grid grid-cols-3 sm:flex gap-2 w-full sm:w-auto">
-          <!-- Populated dynamically: Giorno 1, Giorno 2, Giorno 3 -->
+        <div id="day-tabs" class="grid grid-cols-3 sm:flex items-center gap-1.5 sm:gap-2 bg-slate-900/80 p-1 rounded-xl border border-slate-800 sm:bg-transparent sm:p-0 sm:border-0">
+          <!-- Populated by JS -->
         </div>
 
-        <button type="button" onclick="toggleNotesDrawer()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-[0.99] border border-slate-700 text-xs sm:text-sm font-semibold text-cyan-300 transition min-h-[44px]">
-          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          Note Tecniche & Calcolatore Avvicinamento
+        <button onclick="toggleNotesModal()" class="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700/80 active:border-emerald-500/50 text-xs font-semibold text-slate-200 transition w-full sm:w-auto">
+          <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span>Note Tecniche &amp; Calcolatore Avvicinamento</span>
         </button>
       </div>
 
-      <!-- Collapsible Technical Notes & Warm-up Set Calculator -->
-      <div id="notes-drawer" class="hidden rounded-2xl bg-slate-900 border border-slate-800 p-4 sm:p-6 space-y-5 shadow-lg">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-          <!-- Specific Routine & General Rules -->
-          <div class="space-y-3">
-            <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              Note Specifiche della Scheda Attiva
-            </h3>
-            <ul id="routine-notes-list" class="space-y-2 text-xs sm:text-sm text-slate-300 list-disc pl-5 leading-relaxed">
-              <!-- Populated dynamically -->
+      <!-- Collapsible Technical Notes & Warm-up Calculator -->
+      <div id="notes-panel" class="hidden bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400">Note Specifiche della Scheda Attiva</h4>
+            <ul id="active-sheet-notes" class="text-xs sm:text-sm text-slate-300 space-y-1.5 list-disc pl-4">
+              <!-- Populated by JS -->
             </ul>
-
-            <div class="pt-3 border-t border-slate-800">
-              <h4 class="text-xs sm:text-sm font-bold text-cyan-300 mb-2">Regole Comuni a Tutte le Schede</h4>
-              <ul class="space-y-1.5 text-xs text-slate-400 list-disc pl-5 leading-relaxed">
-                <li><strong class="text-slate-200">Riscaldamento:</strong> 5–10 min cardio leggero + mobilità articolare.</li>
-                <li><strong class="text-slate-200">Doppia progressione:</strong> Raggiungi il tetto delle ripetizioni su tutte le serie con tecnica pulita, poi aumenta +2,5 kg (+1–2 kg isolamento).</li>
-                <li><strong class="text-slate-200">Autoregolazione:</strong> Se peggiori per 2 sedute consecutive, anticipa la settimana di scarico.</li>
-                <li><strong class="text-slate-200">Scarico (Sett. 8):</strong> Carichi al 60% e metà delle serie.</li>
-              </ul>
-            </div>
           </div>
 
-          <!-- Warm-up Set Calculator (Serie di avvicinamento) -->
-          <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3.5 sm:p-4 space-y-3">
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm sm:text-base font-bold text-white">Calcolatore Serie di Avvicinamento</h3>
-              <span class="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Solo Fondamentali</span>
+          <!-- Warm-up Set Calculator -->
+          <div class="bg-slate-950/75 border border-slate-800 rounded-xl p-3.5 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-sky-400">Calcolatore Avvicinamento</h4>
+              <span class="text-[11px] text-slate-400">Rec. 30–60s</span>
             </div>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Inserisci il carico target allenante (es. 100 kg) per calcolare le serie di avvicinamento con recupero 30–60s (non contano nel volume):
-            </p>
-            <div class="flex items-center gap-2.5">
-              <div class="relative flex-1">
-                <input type="number" inputmode="decimal" id="warmup-target-input" value="100" min="20" max="400" step="2.5" oninput="calculateWarmupSets()" class="w-full rounded-xl bg-slate-900 border border-slate-700 px-3 py-2.5 text-sm font-bold text-white focus:outline-none focus:border-emerald-500 min-h-[44px]" />
-                <span class="absolute right-3 top-3 text-xs font-semibold text-slate-400">kg</span>
-              </div>
-              <button type="button" onclick="calculateWarmupSets()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs sm:text-sm font-bold transition min-h-[44px]">
-                Calcola
-              </button>
+            <div class="flex items-center gap-2">
+              <label for="warmup-target" class="text-xs text-slate-300 whitespace-nowrap">Carico target (kg):</label>
+              <input type="number" inputmode="decimal" id="warmup-target" value="100" min="10" step="2.5" oninput="updateWarmupCalc()" class="w-24 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-sm font-bold text-white focus:outline-none focus:border-sky-500" />
             </div>
-            <div id="warmup-results" class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-              <!-- Populated via JS -->
+            <div id="warmup-steps" class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <!-- Populated by JS -->
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Clean Workout Exercises & Per-Set Weight Logging Cards (Mobile) / Table (Desktop) -->
-      <div class="rounded-2xl bg-slate-900/60 md:bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
-        <div class="p-3.5 sm:p-5 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900">
+      <!-- Exercises Container (Cards on Mobile, Table on Desktop) -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div class="px-4 py-3.5 bg-slate-950/60 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div>
-            <h3 id="current-day-title" class="text-base sm:text-xl font-bold text-white">
-              Giorno 1 - Push (Petto, Spalle, Tricipiti)
-            </h3>
-            <p class="text-xs text-slate-400 mt-0.5">
-              Compila <strong class="text-slate-200">kg × rip</strong> per ogni singola serie (S1, S2, S3...) e salva.
-            </p>
+            <h3 id="day-header-title" class="text-base sm:text-lg font-bold text-white">Giorno 1 - Petto e Tricipiti</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Compila <strong>kg × rip</strong> per ogni singola serie (S1, S2, S3...) e salva.</p>
           </div>
-          <button type="button" onclick="saveAllVisibleRows()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-slate-950 text-xs sm:text-sm font-extrabold shadow-lg shadow-emerald-500/20 transition min-h-[44px]">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          <button onclick="saveAllDayExercises()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.99] text-slate-950 font-bold text-xs sm:text-sm transition shadow-lg shadow-emerald-500/10 flex items-center justify-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
             Salva Tutti Compilati
           </button>
         </div>
 
-        <!-- Mobile-Card / Desktop-Table Responsive Wrapper -->
-        <div class="md:overflow-x-auto custom-scrollbar">
-          <table class="mobile-card-table w-full text-left border-collapse md:min-w-[820px]">
-            <thead>
-              <tr class="border-b border-slate-800 bg-slate-950/60 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                <th class="py-3.5 px-4 w-10">#</th>
-                <th class="py-3.5 px-4 min-w-[210px]">Esercizio & Serie × Rip.</th>
-                <th class="py-3.5 px-4 min-w-[155px]">Ultimo Record</th>
-                <th class="py-3.5 px-4 min-w-[270px]">Serie Eseguite (Carico kg × Rip.)</th>
-                <th class="py-3.5 px-4 min-w-[150px]">RIR / Sensazioni</th>
-                <th class="py-3.5 px-4 w-24 text-right">Azione</th>
-              </tr>
-            </thead>
-            <tbody id="exercises-table-body" class="md:divide-y md:divide-slate-800/70 text-sm">
-              <!-- Populated dynamically -->
-            </tbody>
-          </table>
+        <!-- Desktop Table Header (hidden on mobile) -->
+        <div class="hidden md:grid md:grid-cols-12 gap-3 px-4 py-2.5 bg-slate-950/90 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800">
+          <div class="col-span-4"># &nbsp; Esercizio &amp; Serie × Rip.</div>
+          <div class="col-span-2">Ultimo Record</div>
+          <div class="col-span-3">Serie Eseguite (Carico kg × Rip.)</div>
+          <div class="col-span-2">RIR / Sensazioni</div>
+          <div class="col-span-1 text-right">Azione</div>
+        </div>
+
+        <!-- Exercises List (Responsive Cards/Rows) -->
+        <div id="exercises-list-container" class="divide-y divide-slate-800/80">
+          <!-- Populated dynamically by JS -->
         </div>
       </div>
     </div>
 
-    <!-- VIEW 2: GLOBAL WEIGHT HISTORY LOG ("DIARIO CARICHI") -->
-    <div id="view-history" class="hidden space-y-4 sm:space-y-6">
-      <div class="rounded-2xl bg-slate-900 border border-slate-800 p-3.5 sm:p-6 shadow-xl space-y-4 sm:space-y-5">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+    <!-- VIEW 2: HISTORY LOG -->
+    <div id="view-history" class="hidden space-y-4">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h2 class="text-lg sm:text-2xl font-extrabold text-white">Diario Carichi & Progressione</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Storico completo dei pesi sollevati salvato localmente sul tuo dispositivo.
-            </p>
+            <h3 class="text-base sm:text-lg font-bold text-white">Diario Carichi Sollevati</h3>
+            <p class="text-xs text-slate-400">Storico completo serie per serie salvato sul tuo dispositivo.</p>
           </div>
-          <div class="grid grid-cols-2 sm:flex items-center gap-2">
-            <button type="button" onclick="exportHistoryCSV()" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-emerald-400 transition min-h-[42px]">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              Esporta CSV
+          <div class="grid grid-cols-3 sm:flex items-center gap-2">
+            <button onclick="exportLogsCSV()" class="px-2.5 py-2 rounded-xl bg-slate-800 active:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition text-center">
+              CSV
             </button>
-            <button type="button" onclick="exportHistoryJSON()" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-cyan-400 transition min-h-[42px]">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
-              Backup JSON
+            <button onclick="exportLogsJSON()" class="px-2.5 py-2 rounded-xl bg-slate-800 active:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition text-center">
+              JSON
+            </button>
+            <button onclick="clearAllLogs()" class="px-2.5 py-2 rounded-xl bg-rose-500/10 active:bg-rose-500/20 text-xs font-semibold text-rose-400 border border-rose-500/30 transition text-center">
+              Svuota
             </button>
           </div>
         </div>
 
-        <!-- Filters & Manual Quick Add -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-950/70 p-3 sm:p-3.5 rounded-xl border border-slate-800">
-          <div>
-            <label for="filter-exercise" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Filtra per Esercizio</label>
-            <input type="text" id="filter-exercise" oninput="renderHistoryTable()" placeholder="Cerca es. Panca, Squat..." class="w-full rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-500 min-h-[42px]" />
-          </div>
-          <div>
-            <label for="filter-block" class="block text-[11px] font-semibold uppercase text-slate-400 mb-1">Filtra per Blocco</label>
-            <select id="filter-block" onchange="renderHistoryTable()" class="w-full rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-emerald-500 min-h-[42px]">
-              <option value="ALL">Tutti i Blocchi</option>
-              <option value="Blocco 1: Base">Blocco 1: Base (Set-Ott)</option>
-              <option value="Blocco 2: Costruzione">Blocco 2: Costruzione (Nov-Dic)</option>
-              <option value="Blocco 3: Carichi Alti">Blocco 3: Carichi Alti (Gen-Feb)</option>
-              <option value="Blocco 4: Accumulo">Blocco 4: Accumulo (Mar-Apr)</option>
-              <option value="Blocco 5: Specializzazione">Blocco 5: Specializzazione (Mag-Giu)</option>
-              <option value="Blocco 6: Intensificazione">Blocco 6: Intensificazione (Giu-Lug)</option>
-              <option value="Blocco 7: Pausa Attiva">Blocco 7: Pausa Attiva (Agosto)</option>
-            </select>
-          </div>
-          <div class="flex items-end">
-            <button type="button" onclick="toggleQuickAddModal()" class="w-full py-2.5 px-4 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 text-xs sm:text-sm font-bold transition min-h-[42px]">
-              + Registrazione Manuale Extra
-            </button>
-          </div>
+        <!-- Filter Bar -->
+        <div class="flex flex-col sm:flex-row gap-2.5">
+          <input type="text" id="history-search" oninput="renderHistoryTable()" placeholder="Cerca esercizio (es. Panca, Squat)..." class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+          <select id="history-block-filter" onchange="renderHistoryTable()" class="bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+            <option value="all">Tutti i blocchi annuali</option>
+            <option value="1">Blocco 1: Base (Set–Ott)</option>
+            <option value="2">Blocco 2: Costruzione (Nov–Dic)</option>
+            <option value="3">Blocco 3: Carichi Alti (Gen–Feb)</option>
+            <option value="4">Blocco 4: Accumulo (Mar–Apr)</option>
+            <option value="5">Blocco 5: Specializzazione (Mag–Giu)</option>
+            <option value="6">Blocco 6: Intensificazione (Giu–Lug)</option>
+            <option value="7">Blocco 7: Pausa Attiva (Agosto)</option>
+          </select>
         </div>
 
-        <!-- Quick Manual Add Form (Hidden by default) -->
-        <div id="quick-add-box" class="hidden rounded-xl bg-slate-950 border border-emerald-500/30 p-3.5 sm:p-4 space-y-3">
-          <h4 class="text-sm font-bold text-emerald-400">Aggiungi Registrazione Manuale</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
-            <input type="text" id="manual-ex-name" placeholder="Nome esercizio" class="rounded-xl bg-slate-900 border border-slate-700 px-3 py-2.5 text-xs text-white min-h-[42px]" />
-            <input type="number" inputmode="decimal" id="manual-weight" step="0.5" placeholder="Carico (kg)" class="rounded-xl bg-slate-900 border border-slate-700 px-3 py-2.5 text-xs text-white min-h-[42px]" />
-            <input type="text" id="manual-reps" placeholder="Ripetizioni (es. 8, 8, 7)" class="rounded-xl bg-slate-900 border border-slate-700 px-3 py-2.5 text-xs text-white min-h-[42px]" />
-            <input type="text" id="manual-notes" placeholder="RIR / Note" class="rounded-xl bg-slate-900 border border-slate-700 px-3 py-2.5 text-xs text-white min-h-[42px]" />
-            <button type="button" onclick="submitManualLog()" class="rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs py-2.5 px-4 transition min-h-[42px]">
-              Salva nel Diario
-            </button>
-          </div>
-        </div>
-
-        <!-- Mobile-Card / Desktop-Table Global History -->
-        <div class="md:overflow-x-auto custom-scrollbar md:rounded-xl md:border md:border-slate-800">
-          <table class="mobile-card-table w-full text-left border-collapse md:min-w-[760px]">
-            <thead>
-              <tr class="bg-slate-950/80 border-b border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                <th class="py-3 px-4">Data / Sett.</th>
-                <th class="py-3 px-4">Blocco / Scheda</th>
-                <th class="py-3 px-4">Esercizio</th>
-                <th class="py-3 px-4">Carico Max</th>
-                <th class="py-3 px-4">Dettaglio Serie</th>
-                <th class="py-3 px-4">RIR / Note</th>
-                <th class="py-3 px-4 text-right">Elimina</th>
-              </tr>
-            </thead>
-            <tbody id="history-table-body" class="md:divide-y md:divide-slate-800/70 text-xs sm:text-sm">
-              <!-- Populated dynamically -->
-            </tbody>
-          </table>
+        <!-- History Cards / Table -->
+        <div id="history-list-container" class="space-y-2.5">
+          <!-- Populated by JS -->
         </div>
       </div>
     </div>
 
-    <!-- VIEW 3: GRAPHICAL REPORT TAB ("REPORT GRAFICO") -->
+    <!-- VIEW 3: GRAPHICAL REPORT -->
     <div id="view-report" class="hidden space-y-4 sm:space-y-6">
-      <div class="rounded-2xl bg-slate-900 border border-slate-800 p-3.5 sm:p-6 shadow-xl space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <!-- Chart 1: Exercise Progression (Max vs Avg per Set) -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div>
-            <h2 class="text-lg sm:text-2xl font-extrabold text-white">Report Grafico Progressione</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
-              Analisi automatica basata sui pesi registrati nella tua tabella di allenamento.
-            </p>
+            <h3 class="text-base font-bold text-white">Progressione Carico (kg)</h3>
+            <p class="text-xs text-slate-400">Picco massimo e media tra le serie nel tempo.</p>
           </div>
-          <div id="report-quick-stats" class="grid grid-cols-2 sm:flex gap-2 text-xs">
-            <!-- Populated dynamically -->
-          </div>
+          <select id="report-exercise-select" onchange="renderReportCharts()" class="w-full sm:w-auto bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <!-- Populated by JS -->
+          </select>
         </div>
-
-        <!-- Chart 1: Load Progression by Exercise -->
-        <div class="bg-slate-950/60 border border-slate-800/90 rounded-2xl p-3.5 sm:p-5 space-y-3.5">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-            <div>
-              <h3 class="text-sm sm:text-base font-bold text-white">Andamento Carichi per Esercizio (kg)</h3>
-              <p class="text-xs text-slate-400">Carico massimo (picco) e carico medio tra le serie registrate.</p>
-            </div>
-            <select id="report-exercise-select" onchange="renderExerciseProgressionChart()" class="w-full sm:w-auto rounded-xl bg-slate-900 border border-slate-700 px-3 py-2 text-xs sm:text-sm font-semibold text-white focus:outline-none focus:border-emerald-500 sm:max-w-xs min-h-[42px]">
-              <!-- Populated dynamically -->
-            </select>
-          </div>
-          <div id="exercise-chart-wrapper" class="relative h-60 sm:h-72 w-full">
-            <canvas id="exercise-chart"></canvas>
-          </div>
+        <div class="h-64 sm:h-72 w-full">
+          <canvas id="exerciseChart"></canvas>
         </div>
+      </div>
 
-        <!-- Chart 2: Weekly Volume (Logged Sets per Week) -->
-        <div class="bg-slate-950/60 border border-slate-800/90 rounded-2xl p-3.5 sm:p-5 space-y-3.5">
-          <div>
-            <h3 class="text-sm sm:text-base font-bold text-white">Volume Settimanale Registrato (Serie)</h3>
-            <p class="text-xs text-slate-400">Serie registrate per settimana (in ambra le settimane di scarico).</p>
-          </div>
-          <div id="volume-chart-wrapper" class="relative h-56 sm:h-64 w-full">
-            <canvas id="volume-chart"></canvas>
-          </div>
+      <!-- Chart 2: Weekly Logged Sets -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3">
+        <div>
+          <h3 class="text-base font-bold text-white">Serie Settimanali Registrate</h3>
+          <p class="text-xs text-slate-400">In ambra le settimane di scarico (8, 16, 24, 32, 40, 48).</p>
+        </div>
+        <div class="h-56 sm:h-64 w-full">
+          <canvas id="volumeChart"></canvas>
         </div>
       </div>
     </div>
 
-    <!-- VIEW 4: ANNUAL PLAN OVERVIEW ("PIANO 52 SETTIMANE") -->
-    <div id="view-plan" class="hidden space-y-4 sm:space-y-6">
-      <div class="rounded-2xl bg-slate-900 border border-slate-800 p-3.5 sm:p-6 shadow-xl space-y-4">
+    <!-- VIEW 4: ANNUAL 52-WEEK OVERVIEW -->
+    <div id="view-annual" class="hidden space-y-4">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3">
         <div>
-          <h2 class="text-lg sm:text-2xl font-extrabold text-white">Calendario Annuale Settembre–Settembre</h2>
-          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
-            Panoramica completa dei 7 mesocicli (52 settimane). Tocca un blocco per attivarlo subito.
-          </p>
+          <h3 class="text-base sm:text-lg font-bold text-white">Calendario Annuale (Settembre–Settembre)</h3>
+          <p class="text-xs text-slate-400">Tocca un blocco per aprire subito la scheda corrispondente.</p>
         </div>
-
-        <div id="annual-plan-cards" class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <!-- Populated dynamically -->
+        <div id="annual-blocks-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <!-- Populated by JS -->
         </div>
+      </div>
 
-        <div class="rounded-xl bg-slate-950/80 border border-slate-800 p-3.5 sm:p-4 space-y-2 text-xs text-slate-300">
-          <h3 class="font-bold text-cyan-300 text-sm">Fattori Extra-Palestra & Progressione</h3>
-          <ul class="space-y-1.5 list-disc pl-5 text-slate-400">
-            <li><strong class="text-slate-200">Struttura blocchi:</strong> 7 settimane di carico crescente (10 → 14–16 serie/gruppo, RIR 3 → 1) + 1 settimana di scarico al 60% e metà serie.</li>
-            <li><strong class="text-slate-200">Alimentazione:</strong> Leggero surplus calorico (+200–300 kcal) e 1,6–2 g di proteine per kg di peso corporeo.</li>
-            <li><strong class="text-slate-200">Sonno & Recupero:</strong> 7–9 ore a notte e almeno un giorno di riposo tra le 3 sedute settimanali.</li>
-          </ul>
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-1">
+          <h4 class="font-bold text-emerald-400">Doppia Progressione</h4>
+          <p class="text-slate-300 leading-relaxed">Aumenta prima le ripetizioni fino al limite del range, poi alza il carico (+2,5 kg fondamentali, +1–2 kg isolamento).</p>
+        </div>
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-1">
+          <h4 class="font-bold text-amber-400">Scarico &amp; Autoregolazione</h4>
+          <p class="text-slate-300 leading-relaxed">8ª settimana con carichi al 60% e metà serie. Se peggiori per 2 sedute di fila, anticipa lo scarico.</p>
+        </div>
+        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 space-y-1">
+          <h4 class="font-bold text-sky-400">Recupero &amp; Nutrizione</h4>
+          <p class="text-slate-300 leading-relaxed">Surplus leggero (+200–300 kcal), proteine 1,6–2 g/kg e 7–9 ore di sonno per ottimizzare l'ipertrofia.</p>
         </div>
       </div>
     </div>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-800/80 py-4 px-4 text-center text-xs text-slate-500">
-    Programmazione Annuale Ipertrofia (Settembre–Settembre) • Ottimizzata per Smartphone
-  </footer>
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 w-[90%] max-w-sm">
+    <div class="bg-slate-900 border border-emerald-500/50 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center justify-center gap-2.5 text-xs sm:text-sm font-semibold text-center">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+      <span id="toast-message">Salvato nel diario!</span>
+    </div>
+  </div>
 
-  <!-- Application Logic & Complete Dataset -->
   <script>
     // =========================================================================
-    // 1. COMPLETE ANNUAL PROGRAM DATA (FAITHFUL TO THE PDF)
+    // 1. DATA MODEL: ANNUAL PERIODIZATION & COMPLETE WORKOUT SHEETS (PDF)
     // =========================================================================
-    const ROUTINES = {
+    const ANNUAL_BLOCKS = [
+      {
+        id: 1,
+        period: "Set–Ott",
+        shortPeriod: "SET–OTT",
+        weeksLabel: "1–8",
+        startWeek: 1,
+        endWeek: 8,
+        name: "Base",
+        sheetId: "scheda1",
+        sheetTitle: "Scheda 1 (Split a 3 giorni)",
+        goal: "Tecnica, adattamento, volume moderato.",
+        hasDeloadWeek8: true
+      },
+      {
+        id: 2,
+        period: "Nov–Dic",
+        shortPeriod: "NOV–DIC",
+        weeksLabel: "9–16",
+        startWeek: 9,
+        endWeek: 16,
+        name: "Costruzione",
+        sheetId: "scheda2",
+        sheetTitle: "Scheda 2 (Push / Pull / Legs)",
+        goal: "Più qualità e varietà di esercizi.",
+        hasDeloadWeek8: true
+      },
+      {
+        id: 3,
+        period: "Gen–Feb",
+        shortPeriod: "GEN–FEB",
+        weeksLabel: "17–24",
+        startWeek: 17,
+        endWeek: 24,
+        name: "Carichi Alti",
+        sheetId: "scheda3",
+        sheetTitle: "Scheda 3 (Upper / Lower / Full Body)",
+        goal: "Frequenza 2x/settimana, alzare i carichi sui fondamentali.",
+        hasDeloadWeek8: true
+      },
+      {
+        id: 4,
+        period: "Mar–Apr",
+        shortPeriod: "MAR–APR",
+        weeksLabel: "25–32",
+        startWeek: 25,
+        endWeek: 32,
+        name: "Accumulo",
+        sheetId: "scheda4",
+        sheetTitle: "Scheda 4 (PPL Alto Volume)",
+        goal: "Massimo volume, tecniche di intensità (drop set e superserie).",
+        hasDeloadWeek8: true
+      },
+      {
+        id: 5,
+        period: "Mag–Giu",
+        shortPeriod: "MAG–GIU",
+        weeksLabel: "33–40",
+        startWeek: 33,
+        endWeek: 40,
+        name: "Specializzazione",
+        sheetId: "scheda5",
+        sheetTitle: "Upper / Lower + Focus Punti Deboli",
+        goal: "Recuperare i gruppi in ritardo aggiungendo 2–4 serie settimanali dedicate.",
+        hasDeloadWeek8: true
+      },
+      {
+        id: 6,
+        period: "Giu–Lug",
+        shortPeriod: "GIU–LUG",
+        weeksLabel: "41–48",
+        startWeek: 41,
+        endWeek: 48,
+        name: "Intensificazione",
+        sheetId: "scheda6",
+        sheetTitle: "Scheda 3 (Carichi più alti)",
+        goal: "Consolidare i guadagni di forza e ipertrofia, testare i massimali.",
+        hasDeloadWeek8: true
+      },
+      {
+        id: 7,
+        period: "Agosto",
+        shortPeriod: "AGOSTO",
+        weeksLabel: "49–52",
+        startWeek: 49,
+        endWeek: 52,
+        name: "Pausa Attiva",
+        sheetId: "scheda7",
+        sheetTitle: "Full Body Leggero (2–3 sedute brevi)",
+        goal: "Recupero totale con carichi moderati e ripartenza di settembre.",
+        hasDeloadWeek8: false
+      }
+    ];
+
+    const WORKOUT_SHEETS = {
       scheda1: {
-        id: 'scheda1',
-        title: 'Scheda 1: Split a 3 giorni',
         notes: [
-          'Recupero: 60–90 secondi sugli esercizi di isolamento, 90–120 secondi sui fondamentali.',
-          'Progressione: aumentare i carichi gradualmente mantenendo una buona tecnica.',
-          'Volume crescente nel blocco: parti da ~10 serie/settimana per gruppo fino a 14–16 alla sett. 7.',
-          'Settimana 8 (Scarico): carichi al 60% e metà delle serie.'
+          "Recupero: 60–90 secondi sugli esercizi di isolamento, 90–120 secondi sui fondamentali.",
+          "Progressione: aumentare i carichi gradualmente mantenendo una buona tecnica.",
+          "Riscaldamento: 5–10 min cardio leggero + serie di avvicinamento solo sul primo multiarticolare."
         ],
         days: [
           {
-            name: 'Giorno 1 - Petto e Tricipiti',
-            shortName: 'Giorno 1 (Petto/Tric.)',
+            title: "Giorno 1 - Petto e Tricipiti",
+            shortTitle: "Giorno 1",
             exercises: [
-              { id: 's1_d1_1', name: 'Panca piana con bilanciere', setsReps: '4×6-8', isCompound: true },
-              { id: 's1_d1_2', name: 'Panca inclinata con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's1_d1_3', name: 'Dips (parallele) zavorrati', setsReps: '3×8-10', isCompound: true },
-              { id: 's1_d1_4', name: 'Croci ai cavi o con manubri', setsReps: '3×10-12', isCompound: false },
-              { id: 's1_d1_5', name: 'French press con bilanciere EZ', setsReps: '3×8-10', isCompound: false },
-              { id: 's1_d1_6', name: 'Push down ai cavi', setsReps: '3×10-12', isCompound: false },
-              { id: 's1_d1_7', name: 'Dip tra panche o estensioni con manubrio dietro la testa', setsReps: '3×12-15', isCompound: false }
+              { name: "Panca piana con bilanciere", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Dips (parallele) zavorrati", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Croci ai cavi o con manubri", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "French press con bilanciere EZ", sets: 3, reps: "8–10", type: "Isolamento" },
+              { name: "Push down ai cavi", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Dip tra panche o estensioni manubrio dietro testa", sets: 3, reps: "12–15", type: "Isolamento" }
             ]
           },
           {
-            name: 'Giorno 2 - Dorso e Bicipiti',
-            shortName: 'Giorno 2 (Dorso/Bic.)',
+            title: "Giorno 2 - Dorso e Bicipiti",
+            shortTitle: "Giorno 2",
             exercises: [
-              { id: 's1_d2_1', name: 'Stacco da terra', setsReps: '4×5-6', isCompound: true },
-              { id: 's1_d2_2', name: 'Trazioni alla sbarra zavorrate', setsReps: '3×6-8', isCompound: true },
-              { id: 's1_d2_3', name: 'Rematore con bilanciere', setsReps: '3×8-10', isCompound: true },
-              { id: 's1_d2_4', name: 'Pulley basso o lat machine', setsReps: '3×10-12', isCompound: false },
-              { id: 's1_d2_5', name: 'Curl con bilanciere', setsReps: '3×8-10', isCompound: false },
-              { id: 's1_d2_6', name: 'Curl su panca inclinata con manubri', setsReps: '3×10-12', isCompound: false },
-              { id: 's1_d2_7', name: 'Curl a martello', setsReps: '3×12-15', isCompound: false }
+              { name: "Stacco da terra", sets: 4, reps: "5–6", type: "Fondamentale" },
+              { name: "Trazioni alla sbarra zavorrate", sets: 3, reps: "6–8", type: "Multiarticolare" },
+              { name: "Rematore con bilanciere", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Pulley basso o lat machine", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Curl con bilanciere", sets: 3, reps: "8–10", type: "Isolamento" },
+              { name: "Curl su panca inclinata con manubri", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Curl a martello", sets: 3, reps: "12–15", type: "Isolamento" }
             ]
           },
           {
-            name: 'Giorno 3 - Gambe e Spalle',
-            shortName: 'Giorno 3 (Gambe/Spalle)',
+            title: "Giorno 3 - Gambe e Spalle",
+            shortTitle: "Giorno 3",
             exercises: [
-              { id: 's1_d3_1', name: 'Squat con bilanciere', setsReps: '4×6-8', isCompound: true },
-              { id: 's1_d3_2', name: 'Affondi con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's1_d3_3', name: 'Leg press o Bulgarian squat', setsReps: '3×10-12', isCompound: true },
-              { id: 's1_d3_4', name: 'Leg curl sdraiato', setsReps: '3×12-15', isCompound: false },
-              { id: 's1_d3_5', name: 'Military press con bilanciere', setsReps: '3×6-8', isCompound: true },
-              { id: 's1_d3_6', name: 'Alzate laterali con manubri', setsReps: '3×10-12', isCompound: false },
-              { id: 's1_d3_7', name: 'Face pull ai cavi', setsReps: '3×12-15', isCompound: false }
+              { name: "Squat con bilanciere", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Affondi con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Leg press o Bulgarian squat", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Leg curl sdraiato", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Military press con bilanciere", sets: 3, reps: "6–8", type: "Fondamentale" },
+              { name: "Alzate laterali con manubri", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Face pull ai cavi", sets: 3, reps: "12–15", type: "Isolamento" }
             ]
           }
         ]
       },
       scheda2: {
-        id: 'scheda2',
-        title: 'Scheda 2: Push / Pull / Legs',
         notes: [
-          'Recupero: 2–3 minuti sui fondamentali, 60–90 secondi sull’isolamento (leg extension 60–90s).',
-          'Progressione: quando completi tutte le serie al massimo delle ripetizioni con tecnica pulita, aumenta +2,5 kg (+1–2 kg isolamento).',
-          'Intensità: ultime serie vicino al cedimento (1–2 RIR) senza compromettere la tecnica.',
-          'Leg extension: sali con controllo, pausa 1s in contrazione massima, scendi in 2–3s senza slancio.',
-          'Alternative dips: panca inclinata manubri presa neutra, chest press cavi basso-alto, piegamenti zavorrati, panca stretta.'
+          "Recupero: 2–3 minuti sui fondamentali, 60–90 secondi sull'isolamento (inclusa leg extension).",
+          "Progressione: completate tutte le serie al massimo delle rip. con tecnica pulita, aumenta +2,5 kg (+1–2 kg isolamento).",
+          "Intensità: ultime serie vicino al cedimento (1–2 RIR) senza sporcare la tecnica.",
+          "Leg extension: sali con controllo, pausa 1s in contrazione massima, scendi in 2–3s senza slancio."
         ],
         days: [
           {
-            name: 'Giorno 1 - Push (Petto, Spalle, Tricipiti)',
-            shortName: 'Giorno 1 (Push)',
+            title: "Giorno 1 - Push (Petto, Spalle, Tricipiti)",
+            shortTitle: "G1 • Push",
             exercises: [
-              { id: 's2_d1_1', name: 'Panca inclinata con bilanciere', setsReps: '4×6-8', isCompound: true },
-              { id: 's2_d1_2', name: 'Military press con manubri (da seduto)', setsReps: '3×8-10', isCompound: true },
-              { id: 's2_d1_3', name: 'Panca piana con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's2_d1_4', name: 'Alzate laterali ai cavi', setsReps: '4×12-15', isCompound: false },
-              { id: 's2_d1_5', name: 'Dips zavorrati', setsReps: '3×8-10', isCompound: true },
-              { id: 's2_d1_6', name: 'Push down con corda', setsReps: '3×10-12', isCompound: false },
-              { id: 's2_d1_7', name: 'Estensioni sopra la testa ai cavi', setsReps: '3×10-12', isCompound: false }
+              { name: "Panca inclinata con bilanciere", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Military press con manubri (da seduto)", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Panca piana con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Alzate laterali ai cavi", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Dips zavorrati", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Push down con corda", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Estensioni sopra la testa ai cavi", sets: 3, reps: "10–12", type: "Isolamento" }
             ]
           },
           {
-            name: 'Giorno 2 - Pull (Dorso, Bicipiti, Spalle posteriori)',
-            shortName: 'Giorno 2 (Pull)',
+            title: "Giorno 2 - Pull (Dorso, Bicipiti, Spalle post.)",
+            shortTitle: "G2 • Pull",
             exercises: [
-              { id: 's2_d2_1', name: 'Trazioni alla sbarra zavorrate', setsReps: '4×6-8', isCompound: true },
-              { id: 's2_d2_2', name: 'Rematore con bilanciere', setsReps: '4×6-8', isCompound: true },
-              { id: 's2_d2_3', name: 'Lat machine presa neutra', setsReps: '3×8-10', isCompound: false },
-              { id: 's2_d2_4', name: 'Rematore al cavo basso', setsReps: '3×10-12', isCompound: false },
-              { id: 's2_d2_5', name: 'Face pull ai cavi', setsReps: '3×12-15', isCompound: false },
-              { id: 's2_d2_6', name: 'Curl con bilanciere EZ', setsReps: '3×8-10', isCompound: false },
-              { id: 's2_d2_7', name: 'Curl a martello', setsReps: '3×10-12', isCompound: false }
+              { name: "Trazioni alla sbarra zavorrate", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Rematore con bilanciere", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Lat machine presa neutra", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Rematore al cavo basso", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Face pull ai cavi", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Curl con bilanciere EZ", sets: 3, reps: "8–10", type: "Isolamento" },
+              { name: "Curl a martello", sets: 3, reps: "10–12", type: "Isolamento" }
             ]
           },
           {
-            name: 'Giorno 3 - Legs (Gambe e Core)',
-            shortName: 'Giorno 3 (Legs)',
+            title: "Giorno 3 - Legs (Gambe e Core)",
+            shortTitle: "G3 • Legs",
             exercises: [
-              { id: 's2_d3_1', name: 'Squat con bilanciere', setsReps: '4×5-7', isCompound: true },
-              { id: 's2_d3_2', name: 'Stacco rumeno', setsReps: '3×8-10', isCompound: true },
-              { id: 's2_d3_3', name: 'Leg extension', setsReps: '3×12-15', isCompound: false },
-              { id: 's2_d3_4', name: 'Affondi camminati o Bulgarian squat', setsReps: '3×10 per gamba', isCompound: true },
-              { id: 's2_d3_5', name: 'Leg curl sdraiato', setsReps: '3×10-12', isCompound: false },
-              { id: 's2_d3_6', name: 'Calf in piedi', setsReps: '4×12-15', isCompound: false },
-              { id: 's2_d3_7', name: 'Crunch ai cavi o plank zavorrato', setsReps: '3×12-15', isCompound: false }
+              { name: "Squat con bilanciere", sets: 4, reps: "5–7", type: "Fondamentale" },
+              { name: "Stacco rumeno", sets: 3, reps: "8–10", type: "Fondamentale" },
+              { name: "Leg extension", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Affondi camminati o Bulgarian squat", sets: 3, reps: "10 / gamba", type: "Multiarticolare" },
+              { name: "Leg curl sdraiato", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Calf in piedi", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Crunch ai cavi o plank zavorrato", sets: 3, reps: "12–15", type: "Core" }
             ]
           }
         ]
       },
       scheda3: {
-        id: 'scheda3',
-        title: 'Scheda 3: Upper / Lower / Full Body',
         notes: [
-          'Recupero: 2–3 minuti sui fondamentali, 60–90 secondi sull’isolamento.',
-          'Progressione nei 5×5: parti da un carico con cui chiudi tutte le serie, poi aggiungi +2,5 kg a seduta quando completi 5×5 puliti.',
-          'Giorno 3 (Full Body): usa carichi più moderati, così non rubi recupero agli altri due giorni.',
-          'Frequenza 2x/settimana per gruppo muscolare ideale per spingere i carichi.'
+          "Recupero: 2–3 minuti sui fondamentali (5×5), 60–90 secondi sull'isolamento.",
+          "Progressione 5×5: parti da un carico con cui chiudi tutte le serie, poi aggiungi +2,5 kg a seduta quando chiudi 5×5 puliti.",
+          "Giorno 3 (Full Body): usa carichi più moderati per non rubare recupero agli altri due giorni."
         ],
         days: [
           {
-            name: 'Giorno 1 - Upper (Parte Alta)',
-            shortName: 'Giorno 1 (Upper)',
+            title: "Giorno 1 - Upper (Parte Alta)",
+            shortTitle: "G1 • Upper",
             exercises: [
-              { id: 's3_d1_1', name: 'Panca piana con bilanciere', setsReps: '5×5', isCompound: true },
-              { id: 's3_d1_2', name: 'Trazioni alla sbarra zavorrate', setsReps: '4×6-8', isCompound: true },
-              { id: 's3_d1_3', name: 'Military press con bilanciere', setsReps: '3×6-8', isCompound: true },
-              { id: 's3_d1_4', name: 'Rematore con manubrio o T-bar', setsReps: '3×8-10', isCompound: true },
-              { id: 's3_d1_5', name: 'Panca inclinata con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's3_d1_6', name: 'Alzate laterali ai cavi', setsReps: '3×12-15', isCompound: false },
-              { id: 's3_d1_7', name: 'Curl con bilanciere EZ + Push down (superserie)', setsReps: '3×10-12', isCompound: false }
+              { name: "Panca piana con bilanciere", sets: 5, reps: "5", type: "Fondamentale 5×5" },
+              { name: "Trazioni alla sbarra zavorrate", sets: 4, reps: "6–8", type: "Multiarticolare" },
+              { name: "Military press con bilanciere", sets: 3, reps: "6–8", type: "Fondamentale" },
+              { name: "Rematore con manubrio o T-bar", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Alzate laterali ai cavi", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Curl bilanciere EZ + Push down (Superserie)", sets: 3, reps: "10–12", type: "Superserie" }
             ]
           },
           {
-            name: 'Giorno 2 - Lower (Parte Bassa)',
-            shortName: 'Giorno 2 (Lower)',
+            title: "Giorno 2 - Lower (Parte Bassa)",
+            shortTitle: "G2 • Lower",
             exercises: [
-              { id: 's3_d2_1', name: 'Squat con bilanciere', setsReps: '5×5', isCompound: true },
-              { id: 's3_d2_2', name: 'Stacco rumeno', setsReps: '4×6-8', isCompound: true },
-              { id: 's3_d2_3', name: 'Leg press', setsReps: '3×10-12', isCompound: true },
-              { id: 's3_d2_4', name: 'Bulgarian squat', setsReps: '3×8-10 per gamba', isCompound: true },
-              { id: 's3_d2_5', name: 'Leg curl seduto', setsReps: '3×10-12', isCompound: false },
-              { id: 's3_d2_6', name: 'Calf alla pressa o in piedi', setsReps: '4×12-15', isCompound: false },
-              { id: 's3_d2_7', name: 'Plank zavorrato o crunch ai cavi', setsReps: '3×12-15', isCompound: false }
+              { name: "Squat con bilanciere", sets: 5, reps: "5", type: "Fondamentale 5×5" },
+              { name: "Stacco rumeno", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Leg press", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Bulgarian squat", sets: 3, reps: "8–10 / gamba", type: "Multiarticolare" },
+              { name: "Leg curl seduto", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Calf alla pressa o in piedi", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Plank zavorrato o crunch ai cavi", sets: 3, reps: "12–15", type: "Core" }
             ]
           },
           {
-            name: 'Giorno 3 - Full Body (Ipertrofia)',
-            shortName: 'Giorno 3 (Full Body)',
+            title: "Giorno 3 - Full Body (Ipertrofia Moderata)",
+            shortTitle: "G3 • Full",
             exercises: [
-              { id: 's3_d3_1', name: 'Stacco da terra', setsReps: '4×4-6', isCompound: true },
-              { id: 's3_d3_2', name: 'Panca inclinata con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's3_d3_3', name: 'Lat machine presa neutra', setsReps: '3×10-12', isCompound: false },
-              { id: 's3_d3_4', name: 'Front squat o Goblet squat', setsReps: '3×8-10', isCompound: true },
-              { id: 's3_d3_5', name: 'Rematore al cavo basso', setsReps: '3×10-12', isCompound: false },
-              { id: 's3_d3_6', name: 'Alzate laterali con manubri', setsReps: '3×12-15', isCompound: false },
-              { id: 's3_d3_7', name: 'Face pull ai cavi', setsReps: '3×12-15', isCompound: false }
+              { name: "Stacco da terra", sets: 4, reps: "4–6", type: "Fondamentale" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Lat machine presa neutra", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Front squat o Goblet squat", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Rematore al cavo basso", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Alzate laterali con manubri", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Face pull ai cavi", sets: 3, reps: "12–15", type: "Isolamento" }
             ]
           }
         ]
       },
       scheda4: {
-        id: 'scheda4',
-        title: 'Scheda 4: PPL Ipertrofia ad Alto Volume',
         notes: [
-          'Recupero: 90–120 secondi sui multiarticolari, 45–60 secondi sull’isolamento.',
-          'Progressione: doppia progressione (prima ripetizioni fino al max del range, poi +2,5 kg / +1–2 kg isolamento).',
-          'Intensità: 1–2 ripetizioni di riserva sui multiarticolari, fino al cedimento tecnico sull’isolamento (drop set nell’ultima serie dove indicato).',
-          'Punti deboli: se un gruppo è in ritardo, aggiungi 1–2 serie extra a quell’esercizio.'
+          "Recupero: 90–120 secondi sui multiarticolari, 45–60 secondi sull'isolamento.",
+          "Progressione: doppia progressione (prima raggiungi il top delle rip., poi +2,5 kg multiarticolari / +1–2 kg isolamento).",
+          "Intensità: 1–2 RIR sui multiarticolari, fino al cedimento tecnico sull'isolamento.",
+          "Drop set & Superserie: esegui senza pausa tra gli esercizi accoppiati o scalando il 20–25% sull'ultima serie."
         ],
         days: [
           {
-            name: 'Giorno 1 - Push (Petto, Spalle, Tricipiti)',
-            shortName: 'Giorno 1 (Push)',
+            title: "Giorno 1 - Push Alto Volume",
+            shortTitle: "G1 • Push",
             exercises: [
-              { id: 's4_d1_1', name: 'Panca piana con manubri', setsReps: '4×8-10', isCompound: true },
-              { id: 's4_d1_2', name: 'Panca inclinata al multipower o con bilanciere', setsReps: '4×8-10', isCompound: true },
-              { id: 's4_d1_3', name: 'Croci ai cavi (dal basso verso l’alto)', setsReps: '3×12-15', isCompound: false },
-              { id: 's4_d1_4', name: 'Lento avanti con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's4_d1_5', name: 'Alzate laterali con manubri (ultima serie drop set)', setsReps: '4×12-15', isCompound: false },
-              { id: 's4_d1_6', name: 'Panca stretta con bilanciere', setsReps: '3×8-10', isCompound: true },
-              { id: 's4_d1_7', name: 'French press con bilanciere EZ + Push down (superserie)', setsReps: '3×10-12', isCompound: false }
+              { name: "Panca piana con manubri", sets: 4, reps: "8–10", type: "Multiarticolare" },
+              { name: "Panca inclinata multipower o bilanciere", sets: 4, reps: "8–10", type: "Multiarticolare" },
+              { name: "Croci ai cavi (dal basso verso l'alto)", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Lento avanti con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Alzate laterali con manubri (ultima Drop Set)", sets: 4, reps: "12–15 + Drop", type: "Drop Set" },
+              { name: "Panca stretta con bilanciere", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "French press bilanciere EZ + Push down (SS)", sets: 3, reps: "10–12", type: "Superserie" }
             ]
           },
           {
-            name: 'Giorno 2 - Pull (Dorso, Bicipiti, Spalle posteriori)',
-            shortName: 'Giorno 2 (Pull)',
+            title: "Giorno 2 - Pull Alto Volume",
+            shortTitle: "G2 • Pull",
             exercises: [
-              { id: 's4_d2_1', name: 'Lat machine presa larga', setsReps: '4×8-10', isCompound: true },
-              { id: 's4_d2_2', name: 'Rematore con bilanciere', setsReps: '4×8-10', isCompound: true },
-              { id: 's4_d2_3', name: 'Pulley basso presa stretta', setsReps: '3×10-12', isCompound: false },
-              { id: 's4_d2_4', name: 'Pullover ai cavi o con manubrio', setsReps: '3×12-15', isCompound: false },
-              { id: 's4_d2_5', name: 'Alzate posteriori ai cavi o ai manubri', setsReps: '4×12-15', isCompound: false },
-              { id: 's4_d2_6', name: 'Curl su panca inclinata con manubri', setsReps: '3×10-12', isCompound: false },
-              { id: 's4_d2_7', name: 'Curl ai cavi + Curl a martello (superserie)', setsReps: '3×10-12', isCompound: false }
+              { name: "Lat machine presa larga", sets: 4, reps: "8–10", type: "Multiarticolare" },
+              { name: "Rematore con bilanciere", sets: 4, reps: "8–10", type: "Multiarticolare" },
+              { name: "Pulley basso presa stretta", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Pullover ai cavi o con manubrio", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Alzate posteriori ai cavi o manubri", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Curl su panca inclinata con manubri", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Curl ai cavi + Curl a martello (Superserie)", sets: 3, reps: "10–12", type: "Superserie" }
             ]
           },
           {
-            name: 'Giorno 3 - Legs (Gambe e Core)',
-            shortName: 'Giorno 3 (Legs)',
+            title: "Giorno 3 - Legs Alto Volume (+ Core)",
+            shortTitle: "G3 • Legs",
             exercises: [
-              { id: 's4_d3_1', name: 'Squat con bilanciere', setsReps: '4×8-10', isCompound: true },
-              { id: 's4_d3_2', name: 'Stacco rumeno', setsReps: '4×8-10', isCompound: true },
-              { id: 's4_d3_3', name: 'Hack squat o Leg press', setsReps: '3×10-12', isCompound: true },
-              { id: 's4_d3_4', name: 'Leg extension (ultima serie drop set)', setsReps: '3×12-15', isCompound: false },
-              { id: 's4_d3_5', name: 'Leg curl seduto', setsReps: '4×10-12', isCompound: false },
-              { id: 's4_d3_6', name: 'Hip thrust', setsReps: '3×8-10', isCompound: true },
-              { id: 's4_d3_7', name: 'Calf in piedi + Calf seduto', setsReps: '4×12-15 ciascuno', isCompound: false },
-              { id: 's4_d3_8', name: 'Crunch ai cavi o plank zavorrato (Opzionale Core)', setsReps: '3×12-15', isCompound: false }
+              { name: "Squat con bilanciere", sets: 4, reps: "8–10", type: "Fondamentale" },
+              { name: "Stacco rumeno", sets: 4, reps: "8–10", type: "Fondamentale" },
+              { name: "Hack squat o Leg press", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Leg extension (ultima serie Drop Set)", sets: 3, reps: "12–15 + Drop", type: "Drop Set" },
+              { name: "Leg curl seduto", sets: 4, reps: "10–12", type: "Isolamento" },
+              { name: "Hip thrust", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Calf in piedi + Calf seduto", sets: 4, reps: "12–15 cad.", type: "Isolamento" },
+              { name: "Crunch ai cavi o plank zavorrato (opz.)", sets: 3, reps: "12–15", type: "Core" }
             ]
           }
         ]
       },
-      scheda5_spec: {
-        id: 'scheda5_spec',
-        title: 'Scheda Specializzazione: Upper / Lower Focus Carenze',
+      scheda5: {
         notes: [
-          'Struttura Upper/Lower basata sulla Scheda 3.',
-          'Aggiungi 2–4 serie settimanali extra sui gruppi muscolari in ritardo (es. spalle, braccia, polpacci).',
-          'Recupero: 2 minuti sui multiarticolari, 60–90 secondi sull’isolamento.',
-          'Settimana 8 del blocco (Sett. 40): scarico con carichi al 60% e metà serie.'
+          "Specializzazione (Settimane 33–40): struttura Upper/Lower/Full Body con +2–4 serie settimanali sui gruppi muscolari in ritardo.",
+          "Usa il selettore 'Focus Punti Deboli' qui sopra per adattare automaticamente le serie extra della seduta.",
+          "Mantieni i carichi sui fondamentali mentre spingi il volume sul gruppo carente (1–2 RIR)."
         ],
         days: [
           {
-            name: 'Giorno 1 - Upper (Focus Gruppi Carenti)',
-            shortName: 'Giorno 1 (Upper)',
+            title: "Giorno 1 - Upper + Focus Specializzazione",
+            shortTitle: "G1 • Upper+",
             exercises: [
-              { id: 's5_d1_1', name: 'Panca piana con bilanciere', setsReps: '4×6-8', isCompound: true },
-              { id: 's5_d1_2', name: 'Trazioni alla sbarra zavorrate', setsReps: '4×6-8', isCompound: true },
-              { id: 's5_d1_3', name: 'Military press con bilanciere', setsReps: '3×6-8', isCompound: true },
-              { id: 's5_d1_4', name: 'Rematore con manubrio o T-bar', setsReps: '3×8-10', isCompound: true },
-              { id: 's5_d1_5', name: 'Alzate laterali ai cavi (+1-2 serie extra se carente)', setsReps: '4×12-15', isCompound: false },
-              { id: 's5_d1_6', name: 'Curl con bilanciere EZ + Push down (superserie + serie extra)', setsReps: '4×10-12', isCompound: false }
+              { name: "Panca piana con bilanciere", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Trazioni alla sbarra zavorrate", sets: 4, reps: "6–8", type: "Multiarticolare" },
+              { name: "Military press con bilanciere", sets: 3, reps: "6–8", type: "Fondamentale" },
+              { name: "Rematore con manubrio o T-bar", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Alzate laterali ai cavi", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Esercizio Extra Focus (Punto Debole)", sets: 3, reps: "10–15", type: "Specializzazione" }
             ]
           },
           {
-            name: 'Giorno 2 - Lower (Parte Bassa)',
-            shortName: 'Giorno 2 (Lower)',
+            title: "Giorno 2 - Lower + Richiamo Carente",
+            shortTitle: "G2 • Lower+",
             exercises: [
-              { id: 's5_d2_1', name: 'Squat con bilanciere', setsReps: '4×6-8', isCompound: true },
-              { id: 's5_d2_2', name: 'Stacco rumeno', setsReps: '4×6-8', isCompound: true },
-              { id: 's5_d2_3', name: 'Leg press', setsReps: '3×10-12', isCompound: true },
-              { id: 's5_d2_4', name: 'Bulgarian squat', setsReps: '3×8-10 per gamba', isCompound: true },
-              { id: 's5_d2_5', name: 'Leg curl seduto', setsReps: '3×10-12', isCompound: false },
-              { id: 's5_d2_6', name: 'Calf alla pressa o in piedi (+ serie extra se carente)', setsReps: '4-5×12-15', isCompound: false },
-              { id: 's5_d2_7', name: 'Plank zavorrato o crunch ai cavi', setsReps: '3×12-15', isCompound: false }
+              { name: "Squat con bilanciere", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Stacco rumeno", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Leg press", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Bulgarian squat", sets: 3, reps: "8–10 / gamba", type: "Multiarticolare" },
+              { name: "Leg curl seduto", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Calf alla pressa o in piedi", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Plank zavorrato o crunch ai cavi", sets: 3, reps: "12–15", type: "Core" }
             ]
           },
           {
-            name: 'Giorno 3 - Full Body & Richiamo Carenze',
-            shortName: 'Giorno 3 (Full Body)',
+            title: "Giorno 3 - Full Body + Focus Specializzazione",
+            shortTitle: "G3 • Full+",
             exercises: [
-              { id: 's5_d3_1', name: 'Stacco da terra', setsReps: '3×5-6', isCompound: true },
-              { id: 's5_d3_2', name: 'Panca inclinata con manubri', setsReps: '3×8-10', isCompound: true },
-              { id: 's5_d3_3', name: 'Lat machine presa neutra', setsReps: '3×10-12', isCompound: false },
-              { id: 's5_d3_4', name: 'Front squat o Goblet squat', setsReps: '3×8-10', isCompound: true },
-              { id: 's5_d3_5', name: 'Esercizio Specializzazione Gruppo Carente 1', setsReps: '3-4×10-15', isCompound: false },
-              { id: 's5_d3_6', name: 'Esercizio Specializzazione Gruppo Carente 2', setsReps: '3-4×10-15', isCompound: false }
+              { name: "Stacco da terra", sets: 3, reps: "5–6", type: "Fondamentale" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Lat machine presa neutra", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Front squat o Goblet squat", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Face pull ai cavi", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Esercizio Extra Focus (Punto Debole)", sets: 3, reps: "12–15", type: "Specializzazione" }
             ]
           }
         ]
       },
-      scheda7_pausa: {
-        id: 'scheda7_pausa',
-        title: 'Scheda Pausa Attiva: Full Body Leggero (Agosto)',
+      scheda6: {
         notes: [
-          '2–3 sedute brevi a settimana con carichi moderati (RIR 3–4) e poche serie per esercizio.',
-          'Obiettivo: recupero sistemico e articolare totale per ripartire al massimo a settembre.',
-          'Nessun cedimento muscolare: goditi il movimento e mantieni la vascolarizzazione.'
+          "Intensificazione (Settimane 41–48): ripeti la Scheda 3 con carichi più alti rispetto a gennaio-febbraio.",
+          "Recupero: 2,5–3 minuti sui fondamentali per massimizzare l'espressione di forza.",
+          "Nella settimana 47 puoi testare i tuoi nuovi massimali tecnici (1–3 RM) sui fondamentali prima dello scarico della settimana 48."
         ],
         days: [
           {
-            name: 'Seduta A - Full Body Leggero',
-            shortName: 'Seduta A (Full Body)',
+            title: "Giorno 1 - Upper Intensificazione",
+            shortTitle: "G1 • Upper",
             exercises: [
-              { id: 's7_d1_1', name: 'Goblet squat o Leg press leggera', setsReps: '3×10-12', isCompound: true },
-              { id: 's7_d1_2', name: 'Panca piana con manubri (carico moderato)', setsReps: '3×10-12', isCompound: true },
-              { id: 's7_d1_3', name: 'Lat machine presa neutra', setsReps: '3×10-12', isCompound: false },
-              { id: 's7_d1_4', name: 'Alzate laterali + Face pull', setsReps: '2×15', isCompound: false },
-              { id: 's7_d1_5', name: 'Core / Plank a corpo libero', setsReps: '2×45s', isCompound: false }
+              { name: "Panca piana con bilanciere", sets: 5, reps: "4–5", type: "Fondamentale Pesante" },
+              { name: "Trazioni alla sbarra zavorrate", sets: 4, reps: "5–7", type: "Multiarticolare" },
+              { name: "Military press con bilanciere", sets: 3, reps: "5–7", type: "Fondamentale" },
+              { name: "Rematore con manubrio o T-bar", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Alzate laterali ai cavi", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Curl bilanciere EZ + Push down (Superserie)", sets: 3, reps: "10–12", type: "Superserie" }
             ]
           },
           {
-            name: 'Seduta B - Full Body Leggero',
-            shortName: 'Seduta B (Full Body)',
+            title: "Giorno 2 - Lower Intensificazione",
+            shortTitle: "G2 • Lower",
             exercises: [
-              { id: 's7_d2_1', name: 'Stacco rumeno con manubri', setsReps: '3×10-12', isCompound: true },
-              { id: 's7_d2_2', name: 'Military press con manubri', setsReps: '3×10-12', isCompound: true },
-              { id: 's7_d2_3', name: 'Rematore al cavo basso', setsReps: '3×10-12', isCompound: false },
-              { id: 's7_d2_4', name: 'Curl manubri + Push down corda', setsReps: '2×12-15', isCompound: false }
+              { name: "Squat con bilanciere", sets: 5, reps: "4–5", type: "Fondamentale Pesante" },
+              { name: "Stacco rumeno", sets: 4, reps: "6–8", type: "Fondamentale" },
+              { name: "Leg press", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Bulgarian squat", sets: 3, reps: "8–10 / gamba", type: "Multiarticolare" },
+              { name: "Leg curl seduto", sets: 3, reps: "10–12", type: "Isolamento" },
+              { name: "Calf alla pressa o in piedi", sets: 4, reps: "12–15", type: "Isolamento" },
+              { name: "Plank zavorrato o crunch ai cavi", sets: 3, reps: "12–15", type: "Core" }
             ]
           },
           {
-            name: 'Seduta C - Full Body Opzionale / Mobilità',
-            shortName: 'Seduta C (Opzionale)',
+            title: "Giorno 3 - Full Body Consolidamento",
+            shortTitle: "G3 • Full",
             exercises: [
-              { id: 's7_d3_1', name: 'Affondi camminati a corpo libero o leggeri', setsReps: '2×12/gamba', isCompound: true },
-              { id: 's7_d3_2', name: 'Piegamenti sulle braccia / Dips assistiti', setsReps: '2×12-15', isCompound: true },
-              { id: 's7_d3_3', name: 'Trazioni assistite o Pulley leggero', setsReps: '2×12', isCompound: false },
-              { id: 's7_d3_4', name: 'Stretching & Mobilità generale', setsReps: '15 min', isCompound: false }
+              { name: "Stacco da terra", sets: 4, reps: "4–5", type: "Fondamentale Pesante" },
+              { name: "Panca inclinata con manubri", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Lat machine presa neutra", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Front squat o Goblet squat", sets: 3, reps: "8–10", type: "Multiarticolare" },
+              { name: "Rematore al cavo basso", sets: 3, reps: "10–12", type: "Multiarticolare" },
+              { name: "Alzate laterali con manubri", sets: 3, reps: "12–15", type: "Isolamento" },
+              { name: "Face pull ai cavi", sets: 3, reps: "12–15", type: "Isolamento" }
+            ]
+          }
+        ]
+      },
+      scheda7: {
+        notes: [
+          "Pausa Attiva (Agosto, settimane 49–52): 2–3 sedute brevi a settimana con carichi moderati (65–75% del solito) e ampio margine (3–4 RIR).",
+          "Obiettivo: recuperare articolazioni e sistema nervoso prima di ripartire a settembre con nuovi carichi."
+        ],
+        days: [
+          {
+            title: "Seduta A - Full Body Leggero",
+            shortTitle: "Seduta A",
+            exercises: [
+              { name: "Squat con bilanciere o Goblet squat", sets: 3, reps: "8–10", type: "Moderato" },
+              { name: "Panca piana con manubri", sets: 3, reps: "8–10", type: "Moderato" },
+              { name: "Lat machine presa neutra", sets: 3, reps: "10–12", type: "Moderato" },
+              { name: "Alzate laterali con manubri", sets: 2, reps: "12–15", type: "Isolamento" },
+              { name: "Curl con manubri + Push down (Superserie)", sets: 2, reps: "12–15", type: "Superserie" }
+            ]
+          },
+          {
+            title: "Seduta B - Full Body Leggero",
+            shortTitle: "Seduta B",
+            exercises: [
+              { name: "Stacco rumeno con manubri o bilanciere", sets: 3, reps: "8–10", type: "Moderato" },
+              { name: "Military press con manubri", sets: 3, reps: "8–10", type: "Moderato" },
+              { name: "Pulley basso", sets: 3, reps: "10–12", type: "Moderato" },
+              { name: "Leg extension + Leg curl (Superserie)", sets: 2, reps: "12–15", type: "Superserie" },
+              { name: "Plank o crunch ai cavi", sets: 2, reps: "15", type: "Core" }
+            ]
+          },
+          {
+            title: "Seduta C (Opzionale) - Mobilità & Pump",
+            shortTitle: "Seduta C",
+            exercises: [
+              { name: "Leg press leggera", sets: 2, reps: "12–15", type: "Moderato" },
+              { name: "Croci ai cavi", sets: 2, reps: "12–15", type: "Isolamento" },
+              { name: "Face pull ai cavi", sets: 3, reps: "15", type: "Postura" },
+              { name: "Calf in piedi", sets: 2, reps: "15", type: "Isolamento" }
             ]
           }
         ]
       }
     };
-
-    const ANNUAL_BLOCKS = [
-      {
-        index: 1,
-        name: 'Blocco 1: Base',
-        period: 'Set–Ott',
-        startWeek: 1,
-        endWeek: 8,
-        routineKey: 'scheda1',
-        routineLabel: 'Scheda 1 (Split 3 giorni)',
-        objective: 'Tecnica, adattamento, volume moderato.',
-        hasDeload: true
-      },
-      {
-        index: 2,
-        name: 'Blocco 2: Costruzione',
-        period: 'Nov–Dic',
-        startWeek: 9,
-        endWeek: 16,
-        routineKey: 'scheda2',
-        routineLabel: 'Scheda 2 (Push / Pull / Legs)',
-        objective: 'Più qualità e varietà di esercizi.',
-        hasDeload: true
-      },
-      {
-        index: 3,
-        name: 'Blocco 3: Carichi Alti',
-        period: 'Gen–Feb',
-        startWeek: 17,
-        endWeek: 24,
-        routineKey: 'scheda3',
-        routineLabel: 'Scheda 3 (Upper / Lower / Full Body)',
-        objective: 'Frequenza 2x/settimana, alzare i carichi sui fondamentali.',
-        hasDeload: true
-      },
-      {
-        index: 4,
-        name: 'Blocco 4: Accumulo',
-        period: 'Mar–Apr',
-        startWeek: 25,
-        endWeek: 32,
-        routineKey: 'scheda4',
-        routineLabel: 'Scheda 4 (PPL Alto Volume)',
-        objective: 'Massimo volume, tecniche di intensità (drop set, superserie).',
-        hasDeload: true
-      },
-      {
-        index: 5,
-        name: 'Blocco 5: Specializzazione',
-        period: 'Mag–Giu',
-        startWeek: 33,
-        endWeek: 40,
-        routineKey: 'scheda5_spec',
-        routineLabel: 'Upper/Lower con +2–4 serie sui punti deboli',
-        objective: 'Recuperare i gruppi muscolari in ritardo.',
-        hasDeload: true
-      },
-      {
-        index: 6,
-        name: 'Blocco 6: Intensificazione',
-        period: 'Giu–Lug',
-        startWeek: 41,
-        endWeek: 48,
-        routineKey: 'scheda3',
-        routineLabel: 'Scheda 3 Avanzata (carichi più alti)',
-        objective: 'Consolidare i guadagni di forza/massa e testare i massimali.',
-        hasDeload: true
-      },
-      {
-        index: 7,
-        name: 'Blocco 7: Pausa Attiva',
-        period: 'Agosto',
-        startWeek: 49,
-        endWeek: 52,
-        routineKey: 'scheda7_pausa',
-        routineLabel: 'Full Body Leggero (2–3 sedute brevi)',
-        objective: 'Recupero totale articolare e nervoso per la ripartenza di settembre.',
-        hasDeload: false
-      }
-    ];
 
     // =========================================================================
     // 2. APPLICATION STATE & STORAGE
     // =========================================================================
-    const STORAGE_KEY_LOGS = 'ipertrofia_annual_logs_v1';
-    const STORAGE_KEY_WEAKPOINT = 'ipertrofia_weak_point_v1';
+    const STORAGE_KEY_LOGS = "hypertrophy_weight_logs_v2";
+    const STORAGE_KEY_WEAK = "hypertrophy_weak_point_v1";
 
     let state = {
-      selectedDateStr: '',
-      currentWeek: 1, // 1 to 52
-      selectedDayIndex: 0,
-      activeMainTab: 'workout', // 'workout' | 'history' | 'report'
+      selectedDate: new Date(),
+      currentWeek: 1,
+      activeDayIndex: 0,
+      weakPoint: "Spalle (Deltoidi laterali/posteriori)",
       logs: [],
-      weakPoint: '',
-      customSetCounts: {} // tracks per-exercise number of sets in the active table
+      customSetCounts: {}
     };
 
-    let chartInstances = {
-      exercise: null,
-      volume: null
-    };
+    let exerciseChartInstance = null;
+    let volumeChartInstance = null;
 
     function loadStateFromStorage() {
       try {
         const savedLogs = localStorage.getItem(STORAGE_KEY_LOGS);
         if (savedLogs) {
-          const parsed = JSON.parse(savedLogs);
-          if (Array.isArray(parsed)) {
-            state.logs = parsed;
+          state.logs = JSON.parse(savedLogs);
+        } else {
+          const legacyLogs = localStorage.getItem("hypertrophy_weight_logs_v1");
+          if (legacyLogs) {
+            const parsed = JSON.parse(legacyLogs);
+            state.logs = parsed.map(item => ({
+              ...item,
+              setsDetail: item.setsDetail || [{ weight: item.weight, reps: item.reps }]
+            }));
           }
         }
-        const savedWeakPoint = localStorage.getItem(STORAGE_KEY_WEAKPOINT);
-        if (savedWeakPoint) {
-          state.weakPoint = savedWeakPoint;
-          const wpInput = document.getElementById('weak-point-input');
-          if (wpInput) wpInput.value = savedWeakPoint;
-        }
+        const savedWeak = localStorage.getItem(STORAGE_KEY_WEAK);
+        if (savedWeak) state.weakPoint = savedWeak;
       } catch (e) {
-        console.warn('Impossibile leggere localStorage:', e);
+        console.error("Errore lettura localStorage:", e);
       }
-      updateHistoryBadge();
     }
 
-    function persistLogs() {
+    function saveLogsToStorage() {
       try {
         localStorage.setItem(STORAGE_KEY_LOGS, JSON.stringify(state.logs));
+        updateLogCountBadge();
       } catch (e) {
-        console.warn('Impossibile salvare su localStorage:', e);
+        showToast("Errore nel salvataggio locale.");
       }
-      updateHistoryBadge();
     }
 
     function saveWeakPoint(val) {
-      state.weakPoint = (val || '').trim();
-      try {
-        localStorage.setItem(STORAGE_KEY_WEAKPOINT, state.weakPoint);
-      } catch (e) {
-        console.warn('Impossibile salvare focus carente:', e);
-      }
-      showToast('Focus gruppi carenti salvato!', 'info');
+      state.weakPoint = val;
+      localStorage.setItem(STORAGE_KEY_WEAK, val);
+      renderWorkoutView();
+      showToast("Focus specializzazione aggiornato!");
     }
 
     // =========================================================================
-    // 3. DATE & MACROCYCLE WEEK CALCULATION (SEPTEMBER - SEPTEMBER)
+    // 3. DATE & MACROCYCLE WEEK CALCULATION (SEPT–SEPT 52 WEEKS)
     // =========================================================================
-    function formatDateForInput(dateObj) {
+    function getMacrocycleStart(dateObj) {
+      const year = dateObj.getFullYear();
+      const month = dateObj.getMonth();
+      const startYear = month >= 8 ? year : year - 1;
+      const sept1 = new Date(startYear, 8, 1);
+      const day = sept1.getDay();
+      const diffToMonday = day === 0 ? 1 : (day === 1 ? 0 : 8 - day);
+      sept1.setDate(sept1.getDate() + diffToMonday);
+      sept1.setHours(0, 0, 0, 0);
+      return sept1;
+    }
+
+    function calculateWeekFromDate(dateObj) {
+      const cleanDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      const start = getMacrocycleStart(cleanDate);
+      const diffDays = Math.floor((cleanDate - start) / (1000 * 60 * 60 * 24));
+      let week = Math.floor(diffDays / 7) + 1;
+      if (week < 1) week = 1;
+      if (week > 52) week = 52;
+      return week;
+    }
+
+    function getDateForWeek(weekNum) {
+      const start = getMacrocycleStart(new Date());
+      const target = new Date(start);
+      target.setDate(start.getDate() + (weekNum - 1) * 7);
+      return target;
+    }
+
+    function formatDateInput(dateObj) {
       const y = dateObj.getFullYear();
-      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const d = String(dateObj.getDate()).padStart(2, '0');
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
       return `${y}-${m}-${d}`;
     }
 
-    function getMacrocycleStartMonday(targetDate) {
-      // Macrocycle starts in September (month index 8)
-      const year = targetDate.getMonth() >= 8 ? targetDate.getFullYear() : targetDate.getFullYear() - 1;
-      const sept1 = new Date(year, 8, 1);
-      sept1.setHours(0, 0, 0, 0);
-      const dayOfWeek = sept1.getDay(); // 0 = Sun, 1 = Mon, ...
-      // Find first Monday of September (or Sept 1 if Monday)
-      const offsetToMonday = dayOfWeek === 1 ? 0 : (dayOfWeek === 0 ? 1 : 8 - dayOfWeek);
-      const startMonday = new Date(year, 8, 1 + offsetToMonday);
-      startMonday.setHours(0, 0, 0, 0);
-      return startMonday;
+    function formatDisplayDate(isoStr) {
+      if (!isoStr) return "";
+      const [y, m, d] = isoStr.split("-");
+      return `${d}/${m}/${y}`;
     }
 
-    function computeWeekFromDate(dateObj) {
-      const cleanDate = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
-      const startMonday = getMacrocycleStartMonday(cleanDate);
-      const diffMs = cleanDate.getTime() - startMonday.getTime();
-      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      if (diffDays < 0) return 1;
-      const weekNum = Math.floor(diffDays / 7) + 1;
-      return Math.min(52, Math.max(1, weekNum));
-    }
-
-    function getActiveBlockInfo(weekNumber) {
-      const w = Math.min(52, Math.max(1, Number(weekNumber) || 1));
-      const block = ANNUAL_BLOCKS.find(b => w >= b.startWeek && w <= b.endWeek) || ANNUAL_BLOCKS[0];
-      const weekInBlock = w - block.startWeek + 1;
+    function getActiveBlockInfo(week) {
+      const block = ANNUAL_BLOCKS.find(b => week >= b.startWeek && week <= b.endWeek) || ANNUAL_BLOCKS[0];
+      const weekInBlock = week - block.startWeek + 1;
       const totalWeeksInBlock = block.endWeek - block.startWeek + 1;
-      const isDeload = block.hasDeload && weekInBlock === 8;
-      const routine = ROUTINES[block.routineKey] || ROUTINES.scheda1;
-
-      return {
-        week: w,
-        block,
-        weekInBlock,
-        totalWeeksInBlock,
-        isDeload,
-        routine
-      };
+      const isDeload = block.hasDeloadWeek8 && weekInBlock === 8;
+      return { block, weekInBlock, totalWeeksInBlock, isDeload };
     }
 
     // =========================================================================
-    // 4. NAVIGATION & DASHBOARD UI UPDATES
+    // 4. NAVIGATION & EVENT HANDLERS
     // =========================================================================
-    function resetToToday() {
-      const today = new Date();
-      state.selectedDateStr = formatDateForInput(today);
-      const dateInput = document.getElementById('reference-date');
-      if (dateInput) dateInput.value = state.selectedDateStr;
-      state.currentWeek = computeWeekFromDate(today);
-      state.selectedDayIndex = 0;
-      refreshDashboardUI();
-    }
-
-    function handleDateChange(dateStr) {
-      if (!dateStr) return;
-      state.selectedDateStr = dateStr;
-      const parts = dateStr.split('-').map(Number);
-      const parsedDate = new Date(parts[0], parts[1] - 1, parts[2]);
-      state.currentWeek = computeWeekFromDate(parsedDate);
-      state.selectedDayIndex = 0;
-      refreshDashboardUI();
+    function handleDateChange(val) {
+      if (!val) return;
+      const [y, m, d] = val.split("-").map(Number);
+      state.selectedDate = new Date(y, m - 1, d);
+      state.currentWeek = calculateWeekFromDate(state.selectedDate);
+      state.activeDayIndex = 0;
+      state.customSetCounts = {};
+      updateAllViews();
     }
 
     function handleWeekSlider(val) {
-      state.currentWeek = Math.min(52, Math.max(1, parseInt(val, 10) || 1));
-      state.selectedDayIndex = 0;
-      refreshDashboardUI();
+      state.currentWeek = parseInt(val, 10);
+      state.selectedDate = getDateForWeek(state.currentWeek);
+      state.activeDayIndex = 0;
+      state.customSetCounts = {};
+      updateAllViews();
     }
 
-    function changeWeekBy(delta) {
-      const next = Math.min(52, Math.max(1, state.currentWeek + delta));
-      if (next !== state.currentWeek) {
-        state.currentWeek = next;
-        state.selectedDayIndex = 0;
-        refreshDashboardUI();
-      }
+    function changeWeek(delta) {
+      let next = state.currentWeek + delta;
+      if (next < 1) next = 52;
+      if (next > 52) next = 1;
+      handleWeekSlider(next);
     }
 
-    function jumpToBlockStart(startWeek) {
-      state.currentWeek = startWeek;
-      state.selectedDayIndex = 0;
-      refreshDashboardUI();
-      if (state.activeMainTab === 'plan') {
-        switchMainTab('workout');
-      }
+    function jumpToBlock(blockId) {
+      const block = ANNUAL_BLOCKS.find(b => b.id === blockId);
+      if (!block) return;
+      handleWeekSlider(block.startWeek);
     }
 
-    function selectWorkoutDay(dayIdx) {
-      state.selectedDayIndex = dayIdx;
-      const info = getActiveBlockInfo(state.currentWeek);
-      renderDayTabs(info);
-      renderExercisesTable(info);
+    function resetToToday() {
+      state.selectedDate = new Date();
+      state.currentWeek = calculateWeekFromDate(state.selectedDate);
+      state.activeDayIndex = 0;
+      state.customSetCounts = {};
+      updateAllViews();
+      showToast("Sincronizzato con la settimana odierna!");
     }
 
-    function refreshDashboardUI() {
-      const info = getActiveBlockInfo(state.currentWeek);
-
-      // Update slider & label
-      const slider = document.getElementById('week-slider');
-      if (slider) slider.value = info.week;
-      const sliderLabel = document.getElementById('week-slider-label');
-      if (sliderLabel) sliderLabel.textContent = `Sett. ${info.week}`;
-
-      // Phase Status Badge (Lavoro vs Scarico vs Pausa Attiva)
-      const phaseBadge = document.getElementById('phase-status-badge');
-      if (info.isDeload) {
-        phaseBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/40';
-        phaseBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>Settimana di Scarico (60%)`;
-      } else if (info.block.index === 7) {
-        phaseBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-300 border border-cyan-500/40';
-        phaseBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400"></span>Pausa Attiva (Recupero)`;
-      } else {
-        phaseBadge.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
-        phaseBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>Settimana di Lavoro`;
-      }
-
-      document.getElementById('macro-week-badge').textContent = `Settimana ${info.week} / 52`;
-      document.getElementById('meso-week-badge').textContent = `Settimana ${info.weekInBlock} di ${info.totalWeeksInBlock} nel blocco`;
-      document.getElementById('active-block-title').textContent = `${info.block.name} (${info.block.period})`;
-      document.getElementById('active-routine-subtitle').textContent = `${info.block.routineLabel} • Settimane ${info.block.startWeek}–${info.block.endWeek}`;
-
-      // Guidance Text
-      let progressionHint = '';
-      if (info.isDeload) {
-        progressionHint = 'Settimana di scarico: riduci i carichi al 60% e dimezza le serie per dissipare la fatica accumulata.';
-      } else if (info.block.index === 7) {
-        progressionHint = 'Agosto libero per vacanze e recupero attivo: 2–3 sedute brevi e leggere prima di ripartire a settembre.';
-      } else {
-        progressionHint = `Progressione nel blocco: volume crescente da ~10 a 14–16 serie/settimana per gruppo e RIR in calo da 3 a 1 (Sett. ${info.weekInBlock}/7 di carico).`;
-      }
-      document.getElementById('phase-guidance-text').innerHTML = `<strong class="text-white">Obiettivo:</strong> ${info.block.objective} <span class="text-slate-400">|</span> ${progressionHint}`;
-
-      // Toggle Banners
-      document.getElementById('deload-banner').classList.toggle('hidden', !info.isDeload);
-      document.getElementById('specialization-banner').classList.toggle('hidden', info.block.index !== 5);
-
-      // Render Block Pills, Notes, Day Tabs & Table
-      renderBlocksNav(info);
-      renderRoutineNotes(info);
-      if (state.selectedDayIndex >= info.routine.days.length) {
-        state.selectedDayIndex = 0;
-      }
-      renderDayTabs(info);
-      renderExercisesTable(info);
-    }
-
-    function renderBlocksNav(info) {
-      const container = document.getElementById('blocks-nav-container');
-      container.innerHTML = ANNUAL_BLOCKS.map(b => {
-        const isActive = b.index === info.block.index;
-        return `
-          <button type="button" onclick="jumpToBlockStart(${b.startWeek})"
-            class="min-w-[116px] sm:min-w-0 shrink-0 text-left p-2.5 rounded-xl border transition-all active:scale-95 ${
-              isActive
-                ? 'bg-emerald-500/15 border-emerald-500/60 shadow-md shadow-emerald-500/10'
-                : 'bg-slate-950/70 border-slate-800 hover:border-slate-700 hover:bg-slate-900'
-            }">
-            <div class="flex items-center justify-between gap-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider ${isActive ? 'text-emerald-400' : 'text-slate-400'}">${b.period}</span>
-              <span class="text-[10px] font-semibold text-slate-500">S.${b.startWeek}-${b.endWeek}</span>
-            </div>
-            <div class="text-xs font-bold truncate mt-0.5 ${isActive ? 'text-white' : 'text-slate-300'}">${b.name.replace(/^Blocco \d+:\s*/, '')}</div>
-          </button>
-        `;
-      }).join('');
-    }
-
-    function renderAnnualPlanTab() {
-      const container = document.getElementById('annual-plan-cards');
-      if (!container) return;
-      const currentInfo = getActiveBlockInfo(state.currentWeek);
-
-      container.innerHTML = ANNUAL_BLOCKS.map(b => {
-        const isCurrent = b.index === currentInfo.block.index;
-        return `
-          <div class="rounded-2xl p-4 border transition-all flex flex-col justify-between gap-3 ${
-            isCurrent
-              ? 'bg-emerald-500/10 border-emerald-500/50 shadow-lg shadow-emerald-500/10'
-              : 'bg-slate-950/80 border-slate-800'
-          }">
-            <div class="space-y-1.5">
-              <div class="flex items-center justify-between gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-                  isCurrent ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-cyan-300'
-                }">
-                  ${b.period} • Sett. ${b.startWeek}–${b.endWeek}
-                </span>
-                ${b.hasDeload
-                  ? '<span class="text-[11px] font-semibold text-amber-400">Scarico Sett. ' + b.endWeek + '</span>'
-                  : '<span class="text-[11px] font-semibold text-cyan-400">Recupero Attivo</span>'}
-              </div>
-              <h3 class="text-base font-extrabold text-white">${b.name}</h3>
-              <p class="text-xs font-semibold text-emerald-400">${b.routineLabel}</p>
-              <p class="text-xs text-slate-300 leading-relaxed">${b.objective}</p>
-            </div>
-            <button type="button" onclick="jumpToBlockStart(${b.startWeek})"
-              class="w-full py-2.5 px-3 rounded-xl text-xs font-bold transition min-h-[42px] ${
-                isCurrent
-                  ? 'bg-emerald-500 text-slate-950'
-                  : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700'
-              }">
-              ${isCurrent ? 'Blocco Attivo (Apri Scheda)' : 'Seleziona Blocco'}
-            </button>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderRoutineNotes(info) {
-      const list = document.getElementById('routine-notes-list');
-      list.innerHTML = info.routine.notes.map(note => `<li>${note}</li>`).join('');
-    }
-
-    function renderDayTabs(info) {
-      const container = document.getElementById('day-tabs-container');
-      container.innerHTML = info.routine.days.map((day, idx) => {
-        const isSelected = idx === state.selectedDayIndex;
-        return `
-          <button type="button" onclick="selectWorkoutDay(${idx})"
-            class="px-2.5 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border min-h-[44px] flex items-center justify-center text-center leading-tight active:scale-95 ${
-              isSelected
-                ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-lg shadow-emerald-500/20'
-                : 'bg-slate-900 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
-            }">
-            ${day.shortName}
-          </button>
-        `;
-      }).join('');
-    }
-
-    // =========================================================================
-    // 5. PER-SET WEIGHT & REPS TABLE RENDERING & CONTROLS
-    // =========================================================================
-    function getLastRecordForExercise(exerciseName) {
-      const normalized = exerciseName.toLowerCase().trim();
-      return state.logs.find(item => item.exerciseName.toLowerCase().trim() === normalized) || null;
-    }
-
-    function getDefaultSetCount(setsRepsStr) {
-      const match = (setsRepsStr || '').match(/^(\d+)\s*[×x]/i);
-      return match ? Math.max(1, parseInt(match[1], 10)) : 3;
-    }
-
-    function formatSetsSummary(setsArray) {
-      if (!Array.isArray(setsArray) || setsArray.length === 0) return '';
-      return setsArray.map(s => `${s.weight}kg×${s.reps}`).join(' | ');
-    }
-
-    function getMaxWeightFromLog(log) {
-      if (Array.isArray(log.sets) && log.sets.length > 0) {
-        return Math.max(...log.sets.map(s => Number(s.weight) || 0));
-      }
-      return Number(log.weight) || 0;
-    }
-
-    function getAvgWeightFromLog(log) {
-      if (Array.isArray(log.sets) && log.sets.length > 0) {
-        const sum = log.sets.reduce((acc, s) => acc + (Number(s.weight) || 0), 0);
-        return Math.round((sum / log.sets.length) * 10) / 10;
-      }
-      return Number(log.weight) || 0;
-    }
-
-    function addSetToExercise(exId) {
-      const container = document.getElementById(`sets-list-${exId}`);
-      if (!container) return;
-      const currentRows = container.querySelectorAll('.set-subrow');
-      const nextIdx = currentRows.length;
-      state.customSetCounts[exId] = nextIdx + 1;
-
-      const lastRow = currentRows[currentRows.length - 1];
-      const prevWeight = lastRow ? lastRow.querySelector('.set-weight-input').value : '';
-      const prevReps = lastRow ? lastRow.querySelector('.set-reps-input').value : '';
-
-      const rowEl = document.createElement('div');
-      rowEl.className = 'set-subrow flex items-center gap-2';
-      rowEl.innerHTML = `
-        <span class="text-xs font-extrabold text-slate-400 w-7 shrink-0">S${nextIdx + 1}</span>
-        <input type="number" inputmode="decimal" step="0.5" min="0" max="500"
-          value="${prevWeight}"
-          placeholder="kg"
-          class="set-weight-input flex-1 md:flex-none md:w-20 rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-sm font-bold text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 min-h-[42px]" />
-        <span class="text-slate-500 text-xs font-bold">×</span>
-        <input type="text" inputmode="numeric"
-          value="${prevReps}"
-          placeholder="rip"
-          class="set-reps-input flex-1 md:flex-none md:w-16 rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 min-h-[42px]" />
-      `;
-      container.appendChild(rowEl);
-    }
-
-    function removeLastSetFromExercise(exId) {
-      const container = document.getElementById(`sets-list-${exId}`);
-      if (!container) return;
-      const currentRows = container.querySelectorAll('.set-subrow');
-      if (currentRows.length <= 1) return;
-      currentRows[currentRows.length - 1].remove();
-      state.customSetCounts[exId] = currentRows.length - 1;
-    }
-
-    function copyFirstSetToAll(exId) {
-      const container = document.getElementById(`sets-list-${exId}`);
-      if (!container) return;
-      const rows = container.querySelectorAll('.set-subrow');
-      if (rows.length < 2) return;
-      const firstWeight = rows[0].querySelector('.set-weight-input').value;
-      const firstReps = rows[0].querySelector('.set-reps-input').value;
-      if (firstWeight === '' && firstReps === '') {
-        showToast('Compila prima la Serie 1 (S1) per copiarla.', 'error');
-        return;
-      }
-      rows.forEach((row, idx) => {
-        if (idx > 0) {
-          if (firstWeight !== '') row.querySelector('.set-weight-input').value = firstWeight;
-          if (firstReps !== '') row.querySelector('.set-reps-input').value = firstReps;
+    function switchMainTab(tabName) {
+      const tabs = ["workout", "history", "report", "annual"];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabName) {
+          view.classList.remove("hidden");
+          btn.className = "py-2 md:px-3.5 md:py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-emerald-500 text-slate-950 shadow-sm text-center";
+        } else {
+          view.classList.add("hidden");
+          btn.className = "py-2 md:px-3.5 md:py-1.5 rounded-lg text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-all text-center";
         }
       });
-      showToast('Carico e ripetizioni della Serie 1 copiati sulle altre serie.', 'info');
+
+      if (tabName === "history") {
+        const badge = document.getElementById("log-count-badge");
+        document.getElementById("tab-history").innerHTML = `<span>Diario</span><span id="log-count-badge" class="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-slate-950/30 text-slate-950">${badge ? badge.textContent : state.logs.length}</span>`;
+        renderHistoryTable();
+      } else {
+        document.getElementById("tab-history").innerHTML = `<span>Diario</span><span id="log-count-badge" class="ml-1 px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-slate-800 text-emerald-400">${state.logs.length}</span>`;
+      }
+
+      if (tabName === "report") {
+        populateReportExerciseSelect();
+        renderReportCharts();
+      }
+      if (tabName === "annual") {
+        renderAnnualOverview();
+      }
     }
 
-    function renderExercisesTable(info) {
-      const dayObj = info.routine.days[state.selectedDayIndex];
-      document.getElementById('current-day-title').textContent = dayObj.name;
+    function selectWorkoutDay(idx) {
+      state.activeDayIndex = idx;
+      state.customSetCounts = {};
+      renderWorkoutView();
+    }
 
-      const tbody = document.getElementById('exercises-table-body');
-      tbody.innerHTML = dayObj.exercises.map((ex, idx) => {
-        const lastRec = getLastRecordForExercise(ex.name);
-        let lastRecordHtml = `<span class="text-xs text-slate-500 italic">Nessun record</span>`;
+    function toggleNotesModal() {
+      const panel = document.getElementById("notes-panel");
+      panel.classList.toggle("hidden");
+      if (!panel.classList.contains("hidden")) {
+        updateWarmupCalc();
+      }
+    }
 
-        const defaultSets = getDefaultSetCount(ex.setsReps);
-        const targetSetCount = state.customSetCounts[ex.id] || (info.isDeload ? Math.max(1, Math.ceil(defaultSets / 2)) : defaultSets);
+    // =========================================================================
+    // 5. RENDERING: HEADER, BLOCKS, WORKOUT & PER-SET WEIGHTS
+    // =========================================================================
+    function updateAllViews() {
+      renderPeriodBanner();
+      renderWorkoutView();
+      if (!document.getElementById("view-history").classList.contains("hidden")) {
+        renderHistoryTable();
+      }
+      if (!document.getElementById("view-report").classList.contains("hidden")) {
+        renderReportCharts();
+      }
+    }
 
-        let lastSets = [];
+    function renderPeriodBanner() {
+      const { block, weekInBlock, totalWeeksInBlock, isDeload } = getActiveBlockInfo(state.currentWeek);
+
+      document.getElementById("date-picker").value = formatDateInput(state.selectedDate);
+      document.getElementById("week-slider").value = state.currentWeek;
+      document.getElementById("slider-week-label").textContent = `Sett. ${state.currentWeek}`;
+
+      document.getElementById("week-badge").textContent = `Settimana ${state.currentWeek} / 52`;
+      document.getElementById("block-week-badge").textContent = `Settimana ${weekInBlock} di ${totalWeeksInBlock} nel blocco`;
+      document.getElementById("active-block-title").textContent = `Blocco ${block.id}: ${block.name} (${block.period})`;
+      document.getElementById("active-block-subtitle").textContent = `${block.sheetTitle} • Settimane ${block.weeksLabel}`;
+
+      const volHint = isDeload
+        ? "Scarico attivo: dimezza le serie e lavora al 60% del carico."
+        : `Progressione nel blocco: volume crescente da ~10 a 14–16 serie/settimana per gruppo e RIR in calo da 3 a 1 (Sett. ${weekInBlock}/7 di carico).`;
+      document.getElementById("active-block-goal").innerHTML = `<strong class="text-white">Obiettivo:</strong> ${block.goal} <span class="text-slate-500 mx-1">|</span> <span class="text-slate-400">${volHint}</span>`;
+
+      const statusBadge = document.getElementById("status-badge");
+      const deloadAlert = document.getElementById("deload-alert");
+
+      if (isDeload) {
+        statusBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40";
+        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Settimana di Scarico (60%)`;
+        deloadAlert.classList.remove("hidden");
+      } else if (block.id === 7) {
+        statusBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-sky-500/20 text-sky-300 border border-sky-500/40";
+        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Pausa Attiva &amp; Recupero`;
+        deloadAlert.classList.add("hidden");
+      } else {
+        statusBadge.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/30";
+        statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Settimana di Lavoro`;
+        deloadAlert.classList.add("hidden");
+      }
+
+      const pillsContainer = document.getElementById("block-pills-container");
+      pillsContainer.innerHTML = ANNUAL_BLOCKS.map(b => {
+        const isActive = b.id === block.id;
+        return `
+          <button onclick="jumpToBlock(${b.id})" class="snap-start shrink-0 w-[135px] md:w-auto text-left p-2.5 rounded-xl border transition-all ${
+            isActive
+              ? "bg-emerald-500/15 border-emerald-500/50 text-white shadow-sm"
+              : "bg-slate-950/60 border-slate-800/80 text-slate-400 active:border-slate-700 hover:text-slate-200"
+          }">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider">
+              <span class="${isActive ? "text-emerald-400" : "text-slate-500"}">${b.shortPeriod}</span>
+              <span class="text-slate-500">S.${b.weeksLabel}</span>
+            </div>
+            <div class="text-xs font-bold mt-0.5 truncate ${isActive ? "text-white" : "text-slate-300"}">${b.name}</div>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function getLastRecordForExercise(exerciseName) {
+      const normalized = exerciseName.toLowerCase().trim();
+      for (let i = state.logs.length - 1; i >= 0; i--) {
+        if (state.logs[i].exercise.toLowerCase().trim() === normalized) {
+          return state.logs[i];
+        }
+      }
+      return null;
+    }
+
+    function formatSetsCompact(setsDetail) {
+      if (!setsDetail || !setsDetail.length) return "—";
+      return setsDetail
+        .map(s => `${s.weight}kg×${s.reps || "?"}`)
+        .join(" • ");
+    }
+
+    function captureCurrentInputs(exercises) {
+      const snapshot = {};
+      exercises.forEach((_, idx) => {
+        const rows = document.querySelectorAll(`.set-row-${idx}`);
+        const sets = [];
+        rows.forEach(row => {
+          const w = row.querySelector(".set-weight")?.value || "";
+          const r = row.querySelector(".set-reps")?.value || "";
+          sets.push({ weight: w, reps: r });
+        });
+        const notes = document.getElementById(`notes-${idx}`)?.value || "";
+        snapshot[idx] = { sets, notes };
+      });
+      return snapshot;
+    }
+
+    function addSetRow(exIdx) {
+      const { block } = getActiveBlockInfo(state.currentWeek);
+      const sheet = WORKOUT_SHEETS[block.sheetId];
+      const day = sheet.days[state.activeDayIndex];
+      const snapshot = captureCurrentInputs(day.exercises);
+
+      const currentCount = snapshot[exIdx]?.sets.length || 1;
+      state.customSetCounts[exIdx] = currentCount + 1;
+
+      const prevSet = snapshot[exIdx]?.sets[currentCount - 1] || { weight: "", reps: "" };
+      snapshot[exIdx].sets.push({ weight: prevSet.weight, reps: prevSet.reps });
+
+      renderWorkoutView(snapshot);
+    }
+
+    function removeSetRow(exIdx) {
+      const { block } = getActiveBlockInfo(state.currentWeek);
+      const sheet = WORKOUT_SHEETS[block.sheetId];
+      const day = sheet.days[state.activeDayIndex];
+      const snapshot = captureCurrentInputs(day.exercises);
+
+      const currentCount = snapshot[exIdx]?.sets.length || 1;
+      if (currentCount <= 1) return;
+      state.customSetCounts[exIdx] = currentCount - 1;
+      snapshot[exIdx].sets.pop();
+
+      renderWorkoutView(snapshot);
+    }
+
+    function copyFirstSetToAll(exIdx) {
+      const rows = document.querySelectorAll(`.set-row-${exIdx}`);
+      if (rows.length < 2) return;
+      const firstWeight = rows[0].querySelector(".set-weight").value;
+      const firstReps = rows[0].querySelector(".set-reps").value;
+      if (!firstWeight && !firstReps) {
+        showToast("Compila prima S1 (kg e rip) da copiare.");
+        return;
+      }
+      rows.forEach((row, i) => {
+        if (i === 0) return;
+        row.querySelector(".set-weight").value = firstWeight;
+        row.querySelector(".set-reps").value = firstReps;
+      });
+      showToast("Carico e rip di S1 copiati su tutte le serie!");
+    }
+
+    function renderWorkoutView(preservedInputs = null) {
+      const { block, isDeload } = getActiveBlockInfo(state.currentWeek);
+      const sheet = WORKOUT_SHEETS[block.sheetId];
+
+      const specBar = document.getElementById("specialization-bar");
+      if (block.id === 5) {
+        specBar.classList.remove("hidden");
+        document.getElementById("weak-point-select").value = state.weakPoint;
+      } else {
+        specBar.classList.add("hidden");
+      }
+
+      if (state.activeDayIndex >= sheet.days.length) {
+        state.activeDayIndex = 0;
+      }
+      const dayTabs = document.getElementById("day-tabs");
+      dayTabs.innerHTML = sheet.days.map((d, idx) => {
+        const active = idx === state.activeDayIndex;
+        return `
+          <button onclick="selectWorkoutDay(${idx})" class="py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all text-center truncate ${
+            active
+              ? "bg-emerald-500 text-slate-950 shadow-sm sm:shadow-md sm:shadow-emerald-500/20"
+              : "text-slate-300 hover:text-white sm:bg-slate-900 sm:border sm:border-slate-800"
+          }">
+            <span class="sm:hidden">${d.shortTitle || `Giorno ${idx + 1}`}</span>
+            <span class="hidden sm:inline">${d.title.split(" - ")[0]} (${d.title.split(" - ")[1]?.split("(")[0].trim() || ""})</span>
+          </button>
+        `;
+      }).join("");
+
+      const notesList = document.getElementById("active-sheet-notes");
+      notesList.innerHTML = sheet.notes.map(n => `<li>${n}</li>`).join("");
+
+      const currentDay = sheet.days[state.activeDayIndex];
+      document.getElementById("day-header-title").textContent = currentDay.title;
+
+      const listContainer = document.getElementById("exercises-list-container");
+      listContainer.innerHTML = currentDay.exercises.map((ex, idx) => {
+        let displayName = ex.name;
+        if (ex.type === "Specializzazione") {
+          displayName = `Focus Punto Debole: ${state.weakPoint}`;
+        }
+
+        const defaultSets = isDeload ? Math.max(1, Math.ceil(ex.sets / 2)) : ex.sets;
+        const numSets = state.customSetCounts[idx] || defaultSets;
+        const lastRec = getLastRecordForExercise(displayName);
+
+        let lastRecordHtml = `<span class="text-slate-500 italic text-xs">Nessun record</span>`;
         if (lastRec) {
-          if (Array.isArray(lastRec.sets) && lastRec.sets.length > 0) {
-            lastSets = lastRec.sets;
-          } else {
-            lastSets = [{ weight: lastRec.weight, reps: lastRec.reps }];
+          const detailStr = lastRec.setsDetail && lastRec.setsDetail.length
+            ? formatSetsCompact(lastRec.setsDetail)
+            : `${lastRec.weight} kg × ${lastRec.reps}`;
+          lastRecordHtml = `
+            <div class="font-semibold text-slate-200 text-xs leading-snug">${detailStr}</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">${formatDisplayDate(lastRec.date)} (Sett. ${lastRec.week})</div>
+          `;
+        }
+
+        const savedSnap = preservedInputs && preservedInputs[idx] ? preservedInputs[idx] : null;
+        let setsHtml = "";
+        for (let s = 0; s < numSets; s++) {
+          const snapSet = savedSnap && savedSnap.sets[s] ? savedSnap.sets[s] : { weight: "", reps: "" };
+          let deloadHint = "";
+          if (isDeload && lastRec) {
+            const refWeight = lastRec.setsDetail && lastRec.setsDetail[s]
+              ? lastRec.setsDetail[s].weight
+              : lastRec.weight;
+            if (refWeight) {
+              const target60 = Math.round((refWeight * 0.6) * 2) / 2;
+              deloadHint = `<span class="text-[10px] font-semibold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.5 rounded ml-1">~${target60}kg</span>`;
+            }
           }
 
-          const summaryText = Array.isArray(lastRec.sets) && lastRec.sets.length > 0
-            ? formatSetsSummary(lastRec.sets)
-            : `${lastRec.weight} kg × ${lastRec.reps}`;
-
-          const deloadBadges = info.isDeload
-            ? lastSets.map((s, sIdx) => {
-                const dKg = Math.round((Number(s.weight) * 0.6) * 2) / 2;
-                return `S${sIdx + 1}: ${dKg}kg`;
-              }).join(' · ')
-            : '';
-
-          lastRecordHtml = `
-            <div class="flex flex-col gap-0.5">
-              <span class="text-xs font-bold text-cyan-300 leading-snug">${summaryText}</span>
-              <span class="text-[10px] text-slate-400">Sett. ${lastRec.week} (${lastRec.date})</span>
-              ${info.isDeload ? `<span class="mt-0.5 inline-block text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 w-fit">Scarico 60%: ${deloadBadges}</span>` : ''}
+          setsHtml += `
+            <div class="set-row-${idx} flex items-center gap-2">
+              <span class="w-7 text-xs font-bold text-slate-400 shrink-0">S${s + 1}</span>
+              <input type="number" inputmode="decimal" step="0.5" min="0" placeholder="kg" value="${snapSet.weight}"
+                class="set-weight flex-1 min-w-0 h-11 md:h-9 bg-slate-950 border border-slate-700 rounded-xl md:rounded-lg px-2.5 text-center text-white font-bold focus:outline-none focus:border-emerald-500" />
+              <span class="text-slate-500 text-sm font-semibold">×</span>
+              <input type="number" inputmode="numeric" step="1" min="0" placeholder="rip" value="${snapSet.reps}"
+                class="set-reps flex-1 min-w-0 h-11 md:h-9 bg-slate-950 border border-slate-700 rounded-xl md:rounded-lg px-2.5 text-center text-white font-semibold focus:outline-none focus:border-emerald-500" />
+              ${deloadHint}
             </div>
           `;
         }
 
-        let setsDisplay = ex.setsReps;
-        if (info.isDeload) {
-          setsDisplay = `${ex.setsReps} <span class="text-amber-400 font-bold">(½ serie)</span>`;
-        }
-
-        // Build individual rows for Serie 1..N
-        let setRowsHtml = '';
-        for (let s = 0; s < targetSetCount; s++) {
-          const prevSet = lastSets[s] || lastSets[lastSets.length - 1] || null;
-          const deloadVal = (info.isDeload && prevSet)
-            ? Math.round((Number(prevSet.weight) * 0.6) * 2) / 2
-            : '';
-          const weightPlaceholder = prevSet ? `${prevSet.weight}` : 'kg';
-          const repsPlaceholder = prevSet && prevSet.reps ? `${prevSet.reps}` : 'rip';
-
-          setRowsHtml += `
-            <div class="set-subrow flex items-center gap-2">
-              <span class="text-xs font-extrabold text-slate-400 w-7 shrink-0">S${s + 1}</span>
-              <input type="number" inputmode="decimal" step="0.5" min="0" max="500"
-                value="${deloadVal}"
-                placeholder="${weightPlaceholder}"
-                class="set-weight-input flex-1 md:flex-none md:w-20 rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-sm font-bold text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 min-h-[42px]" />
-              <span class="text-slate-500 text-xs font-bold">×</span>
-              <input type="text" inputmode="numeric"
-                placeholder="${repsPlaceholder}"
-                class="set-reps-input flex-1 md:flex-none md:w-16 rounded-xl bg-slate-950 border border-slate-700 px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 min-h-[42px]" />
-            </div>
-          `;
-        }
+        const notesVal = savedSnap ? savedSnap.notes : "";
 
         return `
-          <tr class="hover:bg-slate-850/60 transition-colors group align-top" data-ex-row="${ex.id}">
-            <td class="hidden md:table-cell py-3.5 px-4 font-bold text-slate-500 text-xs pt-4">${idx + 1}</td>
-            <td class="py-3.5 px-4">
-              <div class="flex items-start justify-between gap-2">
-                <div class="font-bold text-white text-sm sm:text-base md:text-sm leading-snug">
-                  <span class="md:hidden text-emerald-400 mr-1">#${idx + 1}</span>${ex.name}
+          <div class="p-4 md:grid md:grid-cols-12 md:gap-3 md:items-start hover:bg-slate-800/20 transition space-y-3 md:space-y-0">
+            <!-- Exercise Title & Badges -->
+            <div class="md:col-span-4 space-y-1.5">
+              <div class="flex items-start gap-2">
+                <span class="inline-flex items-center justify-center w-6 h-6 rounded-lg bg-slate-800 text-slate-300 font-mono text-xs font-bold shrink-0 mt-0.5">${idx + 1}</span>
+                <div class="min-w-0 flex-1">
+                  <div class="font-bold text-white text-sm sm:text-base leading-snug">${displayName}</div>
+                  <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                      ${numSets}×${ex.reps}
+                    </span>
+                    <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-300 border border-sky-500/20 uppercase tracking-wider">
+                      ${ex.type}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  ${setsDisplay}
-                </span>
-                ${ex.isCompound ? `<span class="text-[10px] font-semibold uppercase tracking-wider text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded">Fondamentale</span>` : ''}
+              <!-- Mobile Last Record Box -->
+              <div class="md:hidden bg-slate-950/65 border border-slate-800/80 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 shrink-0">Ultimo:</span>
+                <div class="text-right">${lastRecordHtml}</div>
               </div>
-            </td>
-            <td class="py-3.5 px-4">
-              <div class="bg-slate-950/70 md:bg-transparent rounded-xl p-2.5 md:p-0 border border-slate-800/80 md:border-none">
-                <span class="md:hidden block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">Ultimo Record</span>
-                ${lastRecordHtml}
+            </div>
+
+            <!-- Desktop Last Record -->
+            <div class="hidden md:block md:col-span-2 pt-0.5">
+              ${lastRecordHtml}
+            </div>
+
+            <!-- Individual Sets Inputs + Quick Controls -->
+            <div class="md:col-span-3 space-y-2">
+              <div class="space-y-2">
+                ${setsHtml}
               </div>
-            </td>
-            <td class="py-3.5 px-4">
-              <div id="sets-list-${ex.id}" class="space-y-2">
-                ${setRowsHtml}
-              </div>
-              <div class="grid grid-cols-3 md:flex items-center gap-1.5 mt-2.5">
-                <button type="button" onclick="addSetToExercise('${ex.id}')" title="Aggiungi una serie"
-                  class="px-2.5 py-2 md:py-1 rounded-xl md:rounded-md bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs md:text-[11px] font-bold text-emerald-400 border border-slate-700 transition min-h-[38px] md:min-h-0">
+              <div class="grid grid-cols-3 gap-1.5 pt-1">
+                <button type="button" onclick="addSetRow(${idx})" class="h-9 md:h-7 rounded-lg bg-slate-800 active:bg-slate-700 text-xs font-semibold text-emerald-400 border border-slate-700 transition">
                   + Serie
                 </button>
-                <button type="button" onclick="removeLastSetFromExercise('${ex.id}')" title="Rimuovi ultima serie"
-                  class="px-2.5 py-2 md:py-1 rounded-xl md:rounded-md bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs md:text-[11px] font-bold text-slate-300 hover:text-rose-300 border border-slate-700 transition min-h-[38px] md:min-h-0">
+                <button type="button" onclick="removeSetRow(${idx})" class="h-9 md:h-7 rounded-lg bg-slate-800 active:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition">
                   − Serie
                 </button>
-                <button type="button" onclick="copyFirstSetToAll('${ex.id}')" title="Copia peso e ripetizioni della Serie 1 su tutte le altre"
-                  class="px-2.5 py-2 md:py-1 rounded-xl md:rounded-md bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs md:text-[11px] font-bold text-cyan-300 border border-slate-700 transition min-h-[38px] md:min-h-0">
+                <button type="button" onclick="copyFirstSetToAll(${idx})" title="Copia S1 sulle altre serie" class="h-9 md:h-7 rounded-lg bg-slate-800 active:bg-slate-700 text-xs font-semibold text-sky-300 border border-slate-700 transition">
                   Copia S1
                 </button>
               </div>
-            </td>
-            <td class="py-3.5 px-4">
-              <input type="text"
-                id="input-notes-${ex.id}"
-                placeholder="RIR 2, buona tecnica..."
-                class="w-full rounded-xl bg-slate-950 border border-slate-700 px-3 py-2.5 md:py-2 text-xs sm:text-sm text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 min-h-[42px]" />
-            </td>
-            <td class="py-3.5 px-4 text-right">
-              <button type="button"
-                data-ex-id="${ex.id}"
-                data-ex-name="${ex.name.replace(/"/g, '&quot;')}"
-                data-sets-reps="${ex.setsReps.replace(/"/g, '&quot;')}"
-                onclick="saveExerciseRowFromBtn(this)"
-                class="w-full md:w-auto px-4 py-2.5 md:py-2 rounded-xl bg-emerald-500 md:bg-emerald-500/15 hover:bg-emerald-400 md:hover:bg-emerald-500 text-slate-950 md:text-emerald-400 md:hover:text-slate-950 border border-emerald-500/30 font-extrabold md:font-bold text-xs sm:text-sm md:text-xs transition-all active:scale-[0.99] min-h-[44px] md:min-h-0">
+            </div>
+
+            <!-- RIR / Notes + Save Action -->
+            <div class="md:col-span-3 flex flex-col sm:flex-row md:grid md:grid-cols-3 gap-2 pt-1 md:pt-0">
+              <input type="text" id="notes-${idx}" value="${notesVal}" placeholder="RIR 2, buona tecnica..."
+                class="flex-1 md:col-span-2 h-11 md:h-9 bg-slate-950 border border-slate-700 rounded-xl md:rounded-lg px-3 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+              <button onclick="saveSingleExercise(${idx})" class="h-11 md:h-9 px-4 md:px-2 rounded-xl md:rounded-lg bg-emerald-500/20 hover:bg-emerald-500 active:scale-[0.98] text-emerald-300 hover:text-slate-950 border border-emerald-500/40 text-xs font-bold transition shrink-0">
                 Salva Esercizio
               </button>
-            </td>
-          </tr>
+            </div>
+          </div>
         `;
-      }).join('');
+      }).join("");
+    }
+
+    function updateWarmupCalc() {
+      const target = parseFloat(document.getElementById("warmup-target").value) || 0;
+      const stepsContainer = document.getElementById("warmup-steps");
+      if (target <= 0) {
+        stepsContainer.innerHTML = "";
+        return;
+      }
+      const round25 = val => Math.max(0, Math.round(val / 2.5) * 2.5);
+      const steps = [
+        { label: "Serie 1 (40%)", kg: round25(target * 0.4), reps: "8–10 rip" },
+        { label: "Serie 2 (60%)", kg: round25(target * 0.6), reps: "5 rip" },
+        { label: "Serie 3 (80%)", kg: round25(target * 0.8), reps: "3 rip" },
+        { label: "Serie 4 (90%)", kg: round25(target * 0.9), reps: "1–2 rip" }
+      ];
+      stepsContainer.innerHTML = steps.map(s => `
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-center">
+          <div class="text-[10px] text-slate-400">${s.label}</div>
+          <div class="text-sm font-extrabold text-white mt-0.5">${s.kg} kg</div>
+          <div class="text-[11px] text-sky-400 font-semibold">${s.reps}</div>
+        </div>
+      `).join("");
     }
 
     // =========================================================================
-    // 6. SAVING & MANAGING WEIGHT LOGS (PER-SET & MANUAL)
+    // 6. SAVING WEIGHTS & HISTORY LOG (PER-SET)
     // =========================================================================
-    function saveExerciseRowFromBtn(btn) {
-      const exId = btn.getAttribute('data-ex-id');
-      const exName = btn.getAttribute('data-ex-name');
-      const setsReps = btn.getAttribute('data-sets-reps');
-      saveExerciseRow(exId, exName, setsReps, false);
-    }
-
-    function saveExerciseRow(exId, exName, setsReps, silent = false) {
-      const container = document.getElementById(`sets-list-${exId}`);
-      const notesInput = document.getElementById(`input-notes-${exId}`);
-      if (!container) return false;
-
-      const setRows = container.querySelectorAll('.set-subrow');
-      const recordedSets = [];
-
-      setRows.forEach((row, idx) => {
-        const wRaw = row.querySelector('.set-weight-input').value.trim();
-        const rRaw = row.querySelector('.set-reps-input').value.trim();
-        if (wRaw !== '') {
-          const wVal = parseFloat(wRaw);
-          if (!isNaN(wVal) && wVal >= 0) {
-            recordedSets.push({
-              setNumber: idx + 1,
-              weight: wVal,
-              reps: rRaw || '-'
-            });
-          }
+    function collectExerciseEntry(idx, exerciseObj) {
+      const rows = document.querySelectorAll(`.set-row-${idx}`);
+      const setsDetail = [];
+      rows.forEach(row => {
+        const w = parseFloat(row.querySelector(".set-weight").value);
+        const r = parseInt(row.querySelector(".set-reps").value, 10);
+        if (!isNaN(w) && w > 0) {
+          setsDetail.push({
+            weight: w,
+            reps: !isNaN(r) && r > 0 ? r : 0
+          });
         }
       });
 
-      if (recordedSets.length === 0) {
-        if (!silent) {
-          showToast('Inserisci almeno un carico in kg in una delle serie.', 'error');
-          const firstInput = container.querySelector('.set-weight-input');
-          if (firstInput) firstInput.focus();
-        }
-        return false;
-      }
+      if (setsDetail.length === 0) return null;
 
-      const maxWeight = Math.max(...recordedSets.map(s => s.weight));
-      const repsSummary = recordedSets.map(s => `${s.weight}kg×${s.reps}`).join(' | ');
-      const notesVal = notesInput ? notesInput.value.trim() : '';
+      const notesVal = document.getElementById(`notes-${idx}`).value.trim();
+      const { block } = getActiveBlockInfo(state.currentWeek);
+      const displayName = exerciseObj.type === "Specializzazione"
+        ? `Focus Punto Debole: ${state.weakPoint}`
+        : exerciseObj.name;
 
-      const info = getActiveBlockInfo(state.currentWeek);
-      const entry = {
-        id: Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
-        date: state.selectedDateStr || formatDateForInput(new Date()),
+      const weights = setsDetail.map(s => s.weight);
+      const maxWeight = Math.max(...weights);
+      const avgWeight = Math.round((weights.reduce((a, b) => a + b, 0) / weights.length) * 10) / 10;
+
+      return {
+        id: Date.now() + Math.random(),
+        date: formatDateInput(state.selectedDate),
         week: state.currentWeek,
-        blockName: info.block.name,
-        routineTitle: info.routine.title,
-        exerciseName: exName,
-        plannedSetsReps: setsReps,
+        blockId: block.id,
+        blockName: `${block.name} (${block.period})`,
+        exercise: displayName,
+        setsCount: setsDetail.length,
+        setsDetail,
         weight: maxWeight,
-        reps: repsSummary,
-        sets: recordedSets,
-        notes: notesVal || (info.isDeload ? 'Scarico 60%' : '')
+        avgWeight,
+        reps: setsDetail.map(s => s.reps || "-").join("/"),
+        notes: notesVal
       };
-
-      state.logs.unshift(entry);
-      persistLogs();
-
-      setRows.forEach(row => {
-        row.querySelector('.set-weight-input').value = '';
-        row.querySelector('.set-reps-input').value = '';
-      });
-      if (notesInput) notesInput.value = '';
-
-      if (!silent) {
-        showToast(`Salvato: ${exName} (${recordedSets.length} serie, max ${maxWeight} kg)`, 'success');
-        renderExercisesTable(info);
-      }
-      return true;
     }
 
-    function saveAllVisibleRows() {
-      const info = getActiveBlockInfo(state.currentWeek);
-      const dayObj = info.routine.days[state.selectedDayIndex];
-      let savedCount = 0;
+    function saveSingleExercise(idx) {
+      const { block } = getActiveBlockInfo(state.currentWeek);
+      const sheet = WORKOUT_SHEETS[block.sheetId];
+      const exerciseObj = sheet.days[state.activeDayIndex].exercises[idx];
 
-      dayObj.exercises.forEach(ex => {
-        const container = document.getElementById(`sets-list-${ex.id}`);
-        if (container) {
-          const hasAnyWeight = Array.from(container.querySelectorAll('.set-weight-input')).some(inp => inp.value.trim() !== '');
-          if (hasAnyWeight && saveExerciseRow(ex.id, ex.name, ex.setsReps, true)) {
-            savedCount++;
-          }
+      const entry = collectExerciseEntry(idx, exerciseObj);
+      if (!entry) {
+        showToast("Inserisci almeno un carico (kg) valido.");
+        return;
+      }
+
+      state.logs.push(entry);
+      saveLogsToStorage();
+      renderWorkoutView();
+      showToast(`Salvato: ${entry.exercise} (${entry.setsCount} serie)`);
+    }
+
+    function saveAllDayExercises() {
+      const { block } = getActiveBlockInfo(state.currentWeek);
+      const sheet = WORKOUT_SHEETS[block.sheetId];
+      const exercises = sheet.days[state.activeDayIndex].exercises;
+
+      let savedCount = 0;
+      exercises.forEach((ex, idx) => {
+        const entry = collectExerciseEntry(idx, ex);
+        if (entry) {
+          state.logs.push(entry);
+          savedCount++;
         }
       });
 
-      if (savedCount > 0) {
-        renderExercisesTable(info);
-        showToast(`Salvate ${savedCount} registrazioni nel diario!`, 'success');
-      } else {
-        showToast('Compila almeno un carico in kg prima di salvare.', 'error');
+      if (savedCount === 0) {
+        showToast("Compila almeno una serie prima di salvare.");
+        return;
       }
+
+      saveLogsToStorage();
+      renderWorkoutView();
+      showToast(`Salvati ${savedCount} esercizi nel diario!`);
     }
 
-    function deleteLogEntry(logId) {
-      state.logs = state.logs.filter(item => item.id !== logId);
-      persistLogs();
+    function deleteLogEntry(id) {
+      state.logs = state.logs.filter(item => item.id !== id);
+      saveLogsToStorage();
       renderHistoryTable();
-      renderExercisesTable(getActiveBlockInfo(state.currentWeek));
-      showToast('Voce eliminata dal diario.', 'info');
+      renderWorkoutView();
+      showToast("Voce eliminata dal diario.");
     }
 
-    function updateHistoryBadge() {
-      const badge = document.getElementById('history-count-badge');
+    function clearAllLogs() {
+      if (state.logs.length === 0) return;
+      if (!confirm("Vuoi davvero cancellare tutti i pesi salvati nel diario?")) return;
+      state.logs = [];
+      saveLogsToStorage();
+      renderHistoryTable();
+      renderWorkoutView();
+      showToast("Diario svuotato.");
+    }
+
+    function updateLogCountBadge() {
+      const badge = document.getElementById("log-count-badge");
       if (badge) badge.textContent = state.logs.length;
     }
 
     function renderHistoryTable() {
-      const tbody = document.getElementById('history-table-body');
-      const query = (document.getElementById('filter-exercise').value || '').toLowerCase().trim();
-      const blockFilter = document.getElementById('filter-block').value;
+      const search = (document.getElementById("history-search").value || "").toLowerCase();
+      const blockFilter = document.getElementById("history-block-filter").value;
 
-      const filtered = state.logs.filter(item => {
-        const matchesQuery = !query || item.exerciseName.toLowerCase().includes(query) || (item.notes && item.notes.toLowerCase().includes(query));
-        const matchesBlock = blockFilter === 'ALL' || item.blockName === blockFilter;
-        return matchesQuery && matchesBlock;
+      const filtered = [...state.logs].reverse().filter(item => {
+        const matchesSearch = item.exercise.toLowerCase().includes(search) || (item.notes || "").toLowerCase().includes(search);
+        const matchesBlock = blockFilter === "all" || String(item.blockId) === blockFilter;
+        return matchesSearch && matchesBlock;
       });
 
+      const container = document.getElementById("history-list-container");
       if (filtered.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="7" class="py-10 px-4 text-center text-slate-400">
-              Nessun carico registrato trovato. Compila i pesi nella scheda attiva per iniziare a tracciare i tuoi progressi!
-            </td>
-          </tr>
-        `;
+        container.innerHTML = `<div class="bg-slate-950/60 border border-slate-800 rounded-xl p-8 text-center text-xs sm:text-sm text-slate-500">Nessun peso registrato con questi filtri.</div>`;
         return;
       }
 
-      tbody.innerHTML = filtered.map(item => {
-        const hasSetsArray = Array.isArray(item.sets) && item.sets.length > 0;
-        const maxKg = getMaxWeightFromLog(item);
-        const detailsHtml = hasSetsArray
-          ? `<div class="flex flex-wrap gap-1">${item.sets.map((s, idx) => `<span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-xs text-slate-200"><strong class="text-cyan-400">S${idx + 1}:</strong> ${s.weight}kg × ${s.reps}</span>`).join('')}</div>`
-          : `<span class="font-medium text-slate-200">${item.reps}</span>`;
+      container.innerHTML = filtered.map(item => {
+        const detailHtml = item.setsDetail && item.setsDetail.length
+          ? item.setsDetail.map((s, i) => `<span class="inline-flex items-center px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-200 mr-1.5 mb-1"><strong class="text-slate-400 mr-1">S${i + 1}:</strong> <span class="text-emerald-400 font-bold">${s.weight}kg</span> × ${s.reps || "-"}</span>`).join("")
+          : `<span class="text-emerald-400 font-bold text-sm">${item.weight} kg × ${item.reps}</span>`;
 
         return `
-          <tr class="hover:bg-slate-850/60 transition-colors">
-            <td class="py-3 px-4 whitespace-nowrap">
-              <div class="flex items-center justify-between md:block">
-                <div class="font-semibold text-white">${item.date}</div>
-                <div class="text-[11px] text-emerald-400 font-bold">Settimana ${item.week}</div>
+          <div class="bg-slate-950/70 border border-slate-800/90 rounded-xl p-3.5 flex items-start justify-between gap-3">
+            <div class="space-y-1.5 min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2 text-[11px] text-slate-400">
+                <span class="font-semibold text-slate-200">${formatDisplayDate(item.date)}</span>
+                <span>•</span>
+                <span class="text-emerald-400 font-semibold">Sett. ${item.week}</span>
+                <span>•</span>
+                <span>Blocco ${item.blockId}</span>
               </div>
-            </td>
-            <td class="py-3 px-4">
-              <div class="text-xs font-semibold text-slate-200">${item.blockName}</div>
-              <div class="text-[11px] text-slate-500">${item.routineTitle}</div>
-            </td>
-            <td class="py-3 px-4 font-bold text-white text-sm">${item.exerciseName}</td>
-            <td class="py-3 px-4 whitespace-nowrap">
-              <span class="inline-block px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-300 font-extrabold text-xs border border-emerald-500/30">
-                Max ${maxKg} kg
-              </span>
-            </td>
-            <td class="py-3 px-4">${detailsHtml}</td>
-            <td class="py-3 px-4 text-xs text-slate-400">${item.notes || '—'}</td>
-            <td class="py-3 px-4 text-right">
-              <button type="button" onclick="deleteLogEntry('${item.id}')" title="Elimina" class="w-full md:w-auto inline-flex items-center justify-center gap-1.5 py-2 px-3 md:p-1.5 rounded-xl md:rounded-lg bg-rose-500/10 md:bg-transparent text-rose-400 md:text-slate-500 hover:text-rose-400 hover:bg-rose-500/15 transition text-xs font-semibold">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                <span class="md:hidden">Elimina Voce</span>
-              </button>
-            </td>
-          </tr>
+              <div class="font-bold text-white text-sm sm:text-base leading-snug">${item.exercise}</div>
+              <div class="flex flex-wrap items-center pt-0.5">${detailHtml}</div>
+              ${item.notes ? `<div class="text-xs text-slate-400 italic">"${item.notes}"</div>` : ""}
+            </div>
+            <button onclick="deleteLogEntry(${item.id})" class="w-9 h-9 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 active:scale-95 flex items-center justify-center shrink-0 transition" title="Elimina">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
         `;
-      }).join('');
+      }).join("");
     }
 
-    function toggleQuickAddModal() {
-      const box = document.getElementById('quick-add-box');
-      box.classList.toggle('hidden');
-    }
-
-    function submitManualLog() {
-      const name = document.getElementById('manual-ex-name').value.trim();
-      const weight = parseFloat(document.getElementById('manual-weight').value);
-      const reps = document.getElementById('manual-reps').value.trim() || '8';
-      const notes = document.getElementById('manual-notes').value.trim();
-
-      if (!name || isNaN(weight)) {
-        showToast('Inserisci almeno nome esercizio e carico in kg.', 'error');
+    function exportLogsCSV() {
+      if (state.logs.length === 0) {
+        showToast("Nessun dato da esportare.");
         return;
       }
+      const headers = ["Data", "Settimana", "Blocco", "Esercizio", "Serie", "Carico Max (kg)", "Carico Medio (kg)", "Dettaglio Serie", "Note"];
+      const rows = state.logs.map(l => [
+        l.date,
+        l.week,
+        `"${l.blockName}"`,
+        `"${l.exercise}"`,
+        l.setsCount || (l.setsDetail ? l.setsDetail.length : 1),
+        l.weight,
+        l.avgWeight || l.weight,
+        `"${formatSetsCompact(l.setsDetail)}"`,
+        `"${(l.notes || "").replace(/"/g, '""')}"`
+      ]);
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `diario_ipertrofia_${formatDateInput(new Date())}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
-      const info = getActiveBlockInfo(state.currentWeek);
-      const parsedRepsList = reps.includes(',')
-        ? reps.split(',').map(r => r.trim()).filter(Boolean)
-        : [reps];
-      const setsArr = parsedRepsList.map((r, i) => ({
-        setNumber: i + 1,
-        weight: weight,
-        reps: r
-      }));
-
-      state.logs.unshift({
-        id: Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
-        date: state.selectedDateStr || formatDateForInput(new Date()),
-        week: state.currentWeek,
-        blockName: info.block.name,
-        routineTitle: info.routine.title,
-        exerciseName: name,
-        plannedSetsReps: `${setsArr.length}×${reps}`,
-        weight: weight,
-        reps: formatSetsSummary(setsArr),
-        sets: setsArr,
-        notes: notes
-      });
-
-      persistLogs();
-      document.getElementById('manual-ex-name').value = '';
-      document.getElementById('manual-weight').value = '';
-      document.getElementById('manual-reps').value = '';
-      document.getElementById('manual-notes').value = '';
-      document.getElementById('quick-add-box').classList.add('hidden');
-      renderHistoryTable();
-      showToast('Registrazione manuale aggiunta!', 'success');
+    function exportLogsJSON() {
+      if (state.logs.length === 0) {
+        showToast("Nessun dato da esportare.");
+        return;
+      }
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.logs, null, 2));
+      const link = document.createElement("a");
+      link.setAttribute("href", dataStr);
+      link.setAttribute("download", `backup_ipertrofia_${formatDateInput(new Date())}.json`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     // =========================================================================
-    // 7. REPORT GRAFICO (READS DIRECTLY FROM LOGGED WEIGHTS)
+    // 7. GRAPHICAL REPORT (CHART.JS)
     // =========================================================================
-    function inferSetsFromLog(item) {
-      if (Array.isArray(item.sets) && item.sets.length > 0) {
-        return item.sets.length;
+    function populateReportExerciseSelect() {
+      const select = document.getElementById("report-exercise-select");
+      const loggedExercises = [...new Set(state.logs.map(l => l.exercise))];
+      const defaultExercises = ["Panca piana con bilanciere", "Squat con bilanciere", "Stacco da terra", "Military press con bilanciere"];
+      const options = loggedExercises.length > 0 ? loggedExercises : defaultExercises;
+
+      const currentVal = select.value;
+      select.innerHTML = options.map(ex => `<option value="${ex}">${ex}</option>`).join("");
+      if (options.includes(currentVal)) {
+        select.value = currentVal;
       }
-      if (item.reps && item.reps.includes(',')) {
-        return item.reps.split(',').filter(s => s.trim() !== '').length;
-      }
-      const str = item.plannedSetsReps || item.reps || '';
-      const match = str.match(/^(\d+)\s*[×x]/i);
-      if (match) return parseInt(match[1], 10);
-      return 3;
     }
 
-    function renderReportTab() {
-      const statsBox = document.getElementById('report-quick-stats');
-      const totalSets = state.logs.reduce((sum, item) => sum + inferSetsFromLog(item), 0);
-      const activeWeeks = new Set(state.logs.map(l => l.week)).size;
+    function renderReportCharts() {
+      const selectedEx = document.getElementById("report-exercise-select").value;
+      const exLogs = state.logs
+        .filter(l => l.exercise === selectedEx)
+        .sort((a, b) => a.date.localeCompare(b.date) || a.week - b.week);
 
-      statsBox.innerHTML = `
-        <span class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 font-semibold">
-          Serie totali registrate: <strong class="text-emerald-400">${totalSets}</strong>
-        </span>
-        <span class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 font-semibold">
-          Settimane tracciate: <strong class="text-cyan-400">${activeWeeks}</strong>
-        </span>
-      `;
+      const exLabels = exLogs.map(l => `${formatDisplayDate(l.date)} (S.${l.week})`);
+      const maxWeights = exLogs.map(l => l.weight);
+      const avgWeights = exLogs.map(l => l.avgWeight || l.weight);
 
-      // Populate exercise dropdown from logged exercises (with core lifts fallback)
-      const select = document.getElementById('report-exercise-select');
-      const prevSelection = select.value;
-      const loggedExercises = Array.from(new Set(state.logs.map(l => l.exerciseName)));
-      const optionsList = loggedExercises.length > 0
-        ? loggedExercises
-        : ['Panca piana con bilanciere', 'Squat con bilanciere', 'Stacco da terra'];
+      const ctxEx = document.getElementById("exerciseChart").getContext("2d");
+      if (exerciseChartInstance) exerciseChartInstance.destroy();
 
-      select.innerHTML = optionsList.map(name => `<option value="${name.replace(/"/g, '&quot;')}">${name}</option>`).join('');
-      if (prevSelection && optionsList.includes(prevSelection)) {
-        select.value = prevSelection;
-      }
-
-      if (typeof Chart === 'undefined') {
-        const msg = '<div class="h-full flex items-center justify-center text-xs text-slate-400">Libreria grafici non disponibile offline. Controlla la connessione internet per visualizzare i grafici.</div>';
-        document.getElementById('exercise-chart-wrapper').innerHTML = msg;
-        document.getElementById('volume-chart-wrapper').innerHTML = msg;
-        return;
-      }
-
-      renderExerciseProgressionChart();
-      renderWeeklyVolumeChart();
-    }
-
-    function renderExerciseProgressionChart() {
-      const ctx = document.getElementById('exercise-chart');
-      if (!ctx || typeof Chart === 'undefined') return;
-
-      const selectedEx = document.getElementById('report-exercise-select').value;
-      const entries = state.logs
-        .filter(l => l.exerciseName.toLowerCase().trim() === selectedEx.toLowerCase().trim())
-        .slice()
-        .sort((a, b) => a.week - b.week || a.date.localeCompare(b.date));
-
-      const labels = entries.length > 0
-        ? entries.map(e => `Sett. ${e.week} (${e.date.slice(5)})`)
-        : ['Nessun peso registrato'];
-      const maxPoints = entries.map(e => getMaxWeightFromLog(e));
-      const avgPoints = entries.map(e => getAvgWeightFromLog(e));
-
-      if (chartInstances.exercise) {
-        chartInstances.exercise.destroy();
-      }
-
-      chartInstances.exercise = new Chart(ctx, {
-        type: 'line',
+      exerciseChartInstance = new Chart(ctxEx, {
+        type: "line",
         data: {
-          labels,
+          labels: exLabels.length ? exLabels : ["Nessun dato salvato"],
           datasets: [
             {
-              label: 'Carico Massimo (kg)',
-              data: maxPoints,
-              borderColor: '#10b981',
-              backgroundColor: 'rgba(16, 185, 129, 0.15)',
-              borderWidth: 3,
-              pointRadius: 5,
-              pointBackgroundColor: '#10b981',
+              label: `Picco Max (kg)`,
+              data: maxWeights.length ? maxWeights : [0],
+              borderColor: "#10b981",
+              backgroundColor: "rgba(16, 185, 129, 0.15)",
+              borderWidth: 2.5,
               tension: 0.25,
-              fill: true
+              fill: true,
+              pointRadius: 4,
+              pointBackgroundColor: "#10b981"
             },
             {
-              label: 'Carico Medio Serie (kg)',
-              data: avgPoints,
-              borderColor: '#06b6d4',
-              backgroundColor: 'rgba(6, 182, 212, 0.08)',
-              borderWidth: 2,
+              label: `Media Serie (kg)`,
+              data: avgWeights.length ? avgWeights : [0],
+              borderColor: "#38bdf8",
               borderDash: [5, 5],
-              pointRadius: 4,
-              pointBackgroundColor: '#06b6d4',
+              borderWidth: 2,
               tension: 0.25,
-              fill: false
+              fill: false,
+              pointRadius: 3,
+              pointBackgroundColor: "#38bdf8"
             }
           ]
         },
@@ -1758,67 +1657,41 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#cbd5e1', font: { size: 12, weight: '600' } } },
-            tooltip: {
-              backgroundColor: '#0f172a',
-              borderColor: '#334155',
-              borderWidth: 1,
-              callbacks: {
-                afterBody: (items) => {
-                  const idx = items[0]?.dataIndex;
-                  const log = entries[idx];
-                  if (!log) return '';
-                  if (Array.isArray(log.sets) && log.sets.length > 0) {
-                    return 'Dettaglio: ' + formatSetsSummary(log.sets);
-                  }
-                  return `Ripetizioni: ${log.reps}`;
-                }
-              }
-            }
+            legend: { labels: { color: "#cbd5e1", font: { size: 11 } } }
           },
           scales: {
-            x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(51, 65, 85, 0.3)' } },
-            y: { ticks: { color: '#94a3b8', font: { size: 11 }, callback: v => `${v} kg` }, grid: { color: 'rgba(51, 65, 85, 0.3)' } }
+            x: { ticks: { color: "#94a3b8", font: { size: 10 }, maxRotation: 35 }, grid: { color: "rgba(51,65,85,0.3)" } },
+            y: { ticks: { color: "#94a3b8", font: { size: 11 } }, grid: { color: "rgba(51,65,85,0.3)" } }
           }
         }
       });
-    }
 
-    function renderWeeklyVolumeChart() {
-      const ctx = document.getElementById('volume-chart');
-      if (!ctx || typeof Chart === 'undefined') return;
-
-      const weeklySets = {};
-      state.logs.forEach(item => {
-        const w = Number(item.week) || 1;
-        weeklySets[w] = (weeklySets[w] || 0) + inferSetsFromLog(item);
+      const weekMap = {};
+      state.logs.forEach(l => {
+        const w = l.week || 1;
+        const count = l.setsCount || (l.setsDetail ? l.setsDetail.length : 1);
+        weekMap[w] = (weekMap[w] || 0) + count;
       });
 
-      const sortedWeeks = Object.keys(weeklySets).map(Number).sort((a, b) => a - b);
+      const weeks = Object.keys(weekMap).map(Number).sort((a, b) => a - b);
       const deloadWeeks = [8, 16, 24, 32, 40, 48];
+      const volLabels = weeks.length ? weeks.map(w => `S.${w}`) : ["Nessun dato"];
+      const volData = weeks.length ? weeks.map(w => weekMap[w]) : [0];
+      const barColors = weeks.length
+        ? weeks.map(w => deloadWeeks.includes(w) ? "rgba(245, 158, 11, 0.8)" : "rgba(56, 189, 248, 0.8)")
+        : ["rgba(51, 65, 85, 0.5)"];
 
-      const labels = sortedWeeks.length > 0
-        ? sortedWeeks.map(w => deloadWeeks.includes(w) ? `Sett. ${w} (Scarico)` : `Sett. ${w}`)
-        : ['Sett. 1', 'Sett. 2', 'Sett. 3', 'Sett. 4'];
-      const dataValues = sortedWeeks.length > 0
-        ? sortedWeeks.map(w => weeklySets[w])
-        : [0, 0, 0, 0];
-      const colors = sortedWeeks.length > 0
-        ? sortedWeeks.map(w => deloadWeeks.includes(w) ? 'rgba(245, 158, 11, 0.85)' : 'rgba(6, 182, 212, 0.8)')
-        : 'rgba(6, 182, 212, 0.4)';
+      const ctxVol = document.getElementById("volumeChart").getContext("2d");
+      if (volumeChartInstance) volumeChartInstance.destroy();
 
-      if (chartInstances.volume) {
-        chartInstances.volume.destroy();
-      }
-
-      chartInstances.volume = new Chart(ctx, {
-        type: 'bar',
+      volumeChartInstance = new Chart(ctxVol, {
+        type: "bar",
         data: {
-          labels,
+          labels: volLabels,
           datasets: [{
-            label: 'Serie Settimanali Registrate',
-            data: dataValues,
-            backgroundColor: colors,
+            label: "Serie Registrate",
+            data: volData,
+            backgroundColor: barColors,
             borderRadius: 6
           }]
         },
@@ -1826,164 +1699,61 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { labels: { color: '#cbd5e1', font: { size: 12, weight: '600' } } },
-            tooltip: {
-              backgroundColor: '#0f172a',
-              borderColor: '#334155',
-              borderWidth: 1
-            }
+            legend: { display: false }
           },
           scales: {
-            x: { ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { display: false } },
-            y: { beginAtZero: true, ticks: { color: '#94a3b8', font: { size: 11 } }, grid: { color: 'rgba(51, 65, 85, 0.3)' } }
+            x: { ticks: { color: "#94a3b8", font: { size: 11 } }, grid: { display: false } },
+            y: { ticks: { color: "#94a3b8", stepSize: 1, font: { size: 11 } }, grid: { color: "rgba(51,65,85,0.3)" } }
           }
         }
       });
     }
 
     // =========================================================================
-    // 8. WARM-UP CALCULATOR, TABS, EXPORT & TOASTS
+    // 8. RENDERING: ANNUAL 52-WEEK OVERVIEW & TOAST
     // =========================================================================
-    function calculateWarmupSets() {
-      const target = parseFloat(document.getElementById('warmup-target-input').value);
-      const container = document.getElementById('warmup-results');
-      if (isNaN(target) || target <= 0) {
-        container.innerHTML = `<div class="col-span-4 text-xs text-rose-400">Inserisci un peso valido.</div>`;
-        return;
-      }
-
-      const round25 = val => Math.max(20, Math.round(val / 2.5) * 2.5);
-      const sets = [
-        { label: 'Serie 1 (40%)', weight: target <= 45 ? 'Bilanciere vuoto' : `${round25(target * 0.4)} kg`, reps: '8–10 rip.' },
-        { label: 'Serie 2 (60%)', weight: `${round25(target * 0.6)} kg`, reps: '5 rip.' },
-        { label: 'Serie 3 (80%)', weight: `${round25(target * 0.8)} kg`, reps: '3 rip.' },
-        { label: 'Serie 4 (90%)', weight: `${round25(target * 0.9)} kg`, reps: '1–2 rip.' }
-      ];
-
-      container.innerHTML = sets.map(s => `
-        <div class="rounded-xl bg-slate-900 border border-slate-800 p-2.5 text-center">
-          <div class="text-[10px] font-semibold uppercase text-slate-400">${s.label}</div>
-          <div class="text-sm font-extrabold text-emerald-400 mt-0.5">${s.weight}</div>
-          <div class="text-[11px] text-slate-300">${s.reps}</div>
-        </div>
-      `).join('');
+    function renderAnnualOverview() {
+      const { block: currentBlock } = getActiveBlockInfo(state.currentWeek);
+      const container = document.getElementById("annual-blocks-list");
+      container.innerHTML = ANNUAL_BLOCKS.map(b => {
+        const isCurrent = b.id === currentBlock.id;
+        return `
+          <div onclick="jumpToBlock(${b.id}); switchMainTab('workout');" class="cursor-pointer rounded-xl p-4 border transition-all active:scale-[0.99] ${
+            isCurrent
+              ? "bg-emerald-500/15 border-emerald-500/50 shadow-md"
+              : "bg-slate-950/60 border-slate-800 hover:border-slate-700"
+          }">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="text-emerald-400 uppercase tracking-wider">${b.period}</span>
+              <span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">Sett. ${b.weeksLabel}</span>
+            </div>
+            <h4 class="text-base font-extrabold text-white mt-1.5">Blocco ${b.id}: ${b.name}</h4>
+            <p class="text-xs font-semibold text-sky-400 mt-0.5">${b.sheetTitle}</p>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">${b.goal}</p>
+          </div>
+        `;
+      }).join("");
     }
 
-    function toggleNotesDrawer() {
-      const drawer = document.getElementById('notes-drawer');
-      drawer.classList.toggle('hidden');
-      if (!drawer.classList.contains('hidden')) {
-        calculateWarmupSets();
-      }
-    }
-
-    function switchMainTab(tab) {
-      state.activeMainTab = tab;
-      const workoutBtn = document.getElementById('nav-workout-btn');
-      const historyBtn = document.getElementById('nav-history-btn');
-      const reportBtn = document.getElementById('nav-report-btn');
-      const planBtn = document.getElementById('nav-plan-btn');
-
-      const viewWorkout = document.getElementById('view-workout');
-      const viewHistory = document.getElementById('view-history');
-      const viewReport = document.getElementById('view-report');
-      const viewPlan = document.getElementById('view-plan');
-
-      const inactiveClass = 'px-2 sm:px-3.5 py-2 rounded-lg text-[11px] sm:text-sm font-semibold transition-all text-slate-300 hover:text-white text-center min-h-[40px] flex items-center justify-center gap-1';
-      const activeClass = 'px-2 sm:px-3.5 py-2 rounded-lg text-[11px] sm:text-sm font-bold transition-all bg-emerald-500 text-slate-950 shadow text-center min-h-[40px] flex items-center justify-center gap-1';
-
-      workoutBtn.className = tab === 'workout' ? activeClass : inactiveClass;
-      historyBtn.className = tab === 'history' ? activeClass : inactiveClass;
-      reportBtn.className = tab === 'report' ? activeClass : inactiveClass;
-      planBtn.className = tab === 'plan' ? activeClass : inactiveClass;
-
-      viewWorkout.classList.toggle('hidden', tab !== 'workout');
-      viewHistory.classList.toggle('hidden', tab !== 'history');
-      viewReport.classList.toggle('hidden', tab !== 'report');
-      viewPlan.classList.toggle('hidden', tab !== 'plan');
-
-      if (tab === 'history') {
-        renderHistoryTable();
-      } else if (tab === 'report') {
-        renderReportTab();
-      } else if (tab === 'plan') {
-        renderAnnualPlanTab();
-      }
-    }
-
-    function exportHistoryCSV() {
-      if (state.logs.length === 0) {
-        showToast('Nessun dato da esportare.', 'error');
-        return;
-      }
-      const headers = ['Data', 'Settimana', 'Blocco', 'Scheda', 'Esercizio', 'Carico_Max_kg', 'Dettaglio_Serie', 'Note'];
-      const rows = state.logs.map(l => {
-        const detail = Array.isArray(l.sets) && l.sets.length > 0 ? formatSetsSummary(l.sets) : l.reps;
-        return [
-          l.date,
-          l.week,
-          `"${l.blockName}"`,
-          `"${l.routineTitle}"`,
-          `"${l.exerciseName}"`,
-          getMaxWeightFromLog(l),
-          `"${detail}"`,
-          `"${(l.notes || '').replace(/"/g, '""')}"`
-        ];
-      });
-      const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', `diario_ipertrofia_${formatDateForInput(new Date())}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast('Esportazione CSV completata!', 'success');
-    }
-
-    function exportHistoryJSON() {
-      if (state.logs.length === 0) {
-        showToast('Nessun dato da esportare.', 'error');
-        return;
-      }
-      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(state.logs, null, 2));
-      const link = document.createElement('a');
-      link.setAttribute('href', dataStr);
-      link.setAttribute('download', `backup_ipertrofia_${formatDateForInput(new Date())}.json`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      showToast('Backup JSON scaricato!', 'success');
-    }
-
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      const styles = {
-        success: 'bg-emerald-500 text-slate-950 border-emerald-400',
-        error: 'bg-rose-500 text-white border-rose-400',
-        info: 'bg-slate-800 text-white border-slate-700'
-      };
-      toast.className = `pointer-events-auto px-4 py-2.5 rounded-xl border shadow-xl text-xs sm:text-sm font-bold transition-all transform translate-y-2 opacity-0 ${styles[type] || styles.info}`;
-      toast.textContent = message;
-      container.appendChild(toast);
-
-      requestAnimationFrame(() => {
-        toast.classList.remove('translate-y-2', 'opacity-0');
-      });
-
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        setTimeout(() => toast.remove(), 300);
-      }, 2800);
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toast-message").textContent = msg;
+      toast.classList.remove("opacity-0", "translate-y-4");
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-4");
+      }, 2400);
     }
 
     // =========================================================================
     // 9. INITIALIZATION
     // =========================================================================
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", () => {
       loadStateFromStorage();
-      resetToToday();
+      updateLogCountBadge();
+      state.selectedDate = new Date();
+      state.currentWeek = calculateWeekFromDate(state.selectedDate);
+      updateAllViews();
     });
   </script>
 </body>
